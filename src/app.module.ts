@@ -8,6 +8,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './auth/guard/auth.guard';
 import { BranchModule } from './branch/branch.module';
+import { AccessRoleModule } from './access-role/access-role.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { BranchModule } from './branch/branch.module';
     DbPrismaModule,
     AuthModule,
     BranchModule,
+    AccessRoleModule,
   ],
   controllers: [AppController],
   providers: [
