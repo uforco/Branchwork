@@ -24,4 +24,13 @@ export class UpdateStaffDto extends PartialType(CreateStaffDto) {
   @IsString({ message: 'password must be a string' })
   @IsOptional({ message: 'password cannot be empty' })
   password?: string;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+    example: 'branch_uuid',
+    description: 'The branch of the branch_uuid',
+  })
+  @IsString({ message: 'branch_uuid must be a string' })
+  branch_id?: string;
 }

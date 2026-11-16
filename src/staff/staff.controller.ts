@@ -21,11 +21,8 @@ export class StaffController {
 
   @Roles(Role.Owner)
   @Post('Add-new-staff')
-  create(
-    @Body() createStaffDto: CreateStaffDto,
-    @User('organizationId') organizationId: string,
-  ) {
-    return this.staffService.create(createStaffDto, organizationId);
+  create(@Body() createStaffDto: CreateStaffDto, @User() user: AuthUser) {
+    return this.staffService.create(createStaffDto, user);
   }
 
   @Roles(Role.Owner, Role.Branch_manager)
