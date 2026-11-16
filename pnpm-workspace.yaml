@@ -6,6 +6,8 @@ permissions:
     build: true
   '@scarf/scarf':
     build: true
+  argon2:
+    build: true
   prisma:
     build: true
     skills: true

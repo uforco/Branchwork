@@ -14,9 +14,4 @@ export class AppController {
   getAllUsers() {
     return this.appService.findAll();
   }
-
-  @Get('create')
-  createNewUser() {
-    return this.appService.create();
-  }
 }

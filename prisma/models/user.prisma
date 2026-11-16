@@ -11,14 +11,6 @@ model User {
     branch         Branches?     @relation(fields: [branch_id], references: [id])
 }
 
-model Organization {
-    id                String     @id @unique @default(uuid())
-    user_id           String     @unique
-    organization_name String
-    user              User[]
-    branches          Branches[]
-}
-
 enum Roles {
     owner
     branch_manager

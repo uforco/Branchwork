@@ -13,14 +13,4 @@ export class AppService {
     const users = await this.prisma.user.findMany();
     return users;
   }
-
-  async create() {
-    const user = await this.prisma.user.create({
-      data: {
-        name: 'Sharif',
-        email: 'admin@gmail.com',
-      },
-    });
-    return user;
-  }
 }
