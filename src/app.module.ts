@@ -5,6 +5,9 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { DbPrismaModule } from './config/db-prisma/db-prisma.module';
 import { AuthModule } from './auth/auth.module';
 import { JwtModule } from '@nestjs/jwt';
+import { APP_GUARD } from '@nestjs/core';
+import { AuthGuard } from './auth/guard/auth.guard';
+import { BranchModule } from './branch/branch.module';
 
 @Module({
   imports: [
@@ -21,8 +24,15 @@ import { JwtModule } from '@nestjs/jwt';
     }),
     DbPrismaModule,
     AuthModule,
+    BranchModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
+    },
+    AppService,
+  ],
 })
 export class AppModule {}

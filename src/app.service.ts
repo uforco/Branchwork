@@ -10,7 +10,16 @@ export class AppService {
   }
 
   async findAll() {
-    const users = await this.prisma.user.findMany();
+    const users = await this.prisma.user.findMany({
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+        organizationId: true,
+        branch_id: true,
+      },
+    });
     return users;
   }
 }

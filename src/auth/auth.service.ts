@@ -11,7 +11,7 @@ import * as argon2 from 'argon2';
 import { LoginAuthDto } from './dto/login-auth.dto';
 import { JwtService } from '@nestjs/jwt';
 
-interface PayloadInterface {
+export interface PayloadInterface {
   sub: string;
   role: string;
   organizationId?: string;
@@ -143,7 +143,7 @@ export class AuthService {
     // generate the jwt token and return controller
     try {
       return {
-        access_token: await this.createJwtToken(payload),
+        access_token: `Bearer ${await this.createJwtToken(payload)}`,
         data: {
           name,
           email,
