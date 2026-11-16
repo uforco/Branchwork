@@ -9,11 +9,22 @@ import { CreateAuthDto } from './dto/create-auth.dto';
 import { DbPrismaService } from '../config/db-prisma/db-prisma.service';
 import * as argon2 from 'argon2';
 import { LoginAuthDto } from './dto/login-auth.dto';
+import { JwtService } from '@nestjs/jwt';
+
+interface PayloadInterface {
+  sub: string;
+  role: string;
+  organizationId?: string;
+  branch_id?: string;
+}
 
 @Injectable()
 export class AuthService {
   private readonly logger = new Logger(AuthService.name);
-  constructor(private readonly db: DbPrismaService) {}
+  constructor(
+    private readonly db: DbPrismaService,
+    private readonly jwtService: JwtService,
+  ) {}
 
   private async findUserByEmail(email: string) {
     try {
@@ -96,7 +107,7 @@ export class AuthService {
     hashPassword: string;
   }): Promise<boolean> {
     try {
-      return await argon2.verify(password, hashPassword);
+      return await argon2.verify(hashPassword, password);
     } catch (error) {
       this.logger.debug(error);
       throw new InternalServerErrorException(
@@ -113,13 +124,45 @@ export class AuthService {
     const isEmailExist = await this.findUserByEmail(email);
     if (!isEmailExist) throw new NotFoundException('invalid cadential');
 
+    const { password: hashPassword, ...rest } = isEmailExist;
+
     // check if the password is correct
     const isPasswordMatch = await this.isPasswordMatch({
       password,
-      hashPassword: isEmailExist.password,
+      hashPassword,
     });
     if (!isPasswordMatch) throw new NotFoundException('invalid cadential');
 
-    return { message: 'login successful' };
+    // prepare the payload for the jwt token
+    const { id: sub, name, role, organization, branch_id } = rest;
+    const payload = { sub, role };
+    if (organization && organization.id)
+      payload['organizationId'] = organization.id;
+    if (branch_id) payload['branch_id'] = branch_id;
+
+    // generate the jwt token and return controller
+    try {
+      return {
+        access_token: await this.createJwtToken(payload),
+        data: {
+          name,
+          email,
+          role,
+          organization: organization?.organization_name,
+        },
+      };
+    } catch (error) {
+      this.logger.debug(error);
+      throw new InternalServerErrorException(
+        'internal server error please try after some time',
+      );
+    }
+  }
+
+  // create Jwt token
+  private async createJwtToken(payload: PayloadInterface) {
+    return this.jwtService.signAsync(payload, {
+      expiresIn: '1h',
+    });
   }
 }
