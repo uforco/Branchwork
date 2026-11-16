@@ -2,6 +2,7 @@ import {
   CanActivate,
   ExecutionContext,
   Injectable,
+  InternalServerErrorException,
   Logger,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -31,17 +32,17 @@ export class AuthGuard implements CanActivate {
       context.getHandler(),
       context.getClass(),
     ]);
+
     // if no roles are required, allow access Public Access
     if (!requiredRoles) return true;
 
     // Validate token and extract user info
     // Check if user has required roles
     const token = this.extractBearerToken(request);
+
     // token checking
     if (token === '') throw new UnauthorizedException();
-    const payload = await this.jwtService.verifyAsync<PayloadInterface>(token, {
-      secret: this.configService.get<string>('AUTHSECRET'),
-    });
+    const payload = await this.verifyToken<PayloadInterface>(token);
 
     // push user data to the request object
     await this.userDataPushInterceptor(payload.sub, request);
@@ -81,6 +82,27 @@ export class AuthGuard implements CanActivate {
       request['user'] = user;
     } catch (err) {
       this.logger.debug(err);
+      throw new UnauthorizedException();
+    }
+  }
+
+  // verify jwt token
+  private async verifyToken<T extends object>(token: string): Promise<T> {
+    try {
+      return await this.jwtService.verifyAsync<T>(token, {
+        secret: this.configService.get<string>('JWT_SECRET'),
+      });
+    } catch (error) {
+      if (
+        error instanceof Error &&
+        error.name !== 'TokenExpiredError' &&
+        !error['expiredAt']
+      ) {
+        this.logger.debug('Gurad Jwt - ', error);
+        throw new InternalServerErrorException(
+          'Something went wrong!!! Please contact support team',
+        );
+      }
       throw new UnauthorizedException();
     }
   }

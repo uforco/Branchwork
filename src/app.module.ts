@@ -9,6 +9,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './auth/guard/auth.guard';
 import { BranchModule } from './branch/branch.module';
 import { AccessRoleModule } from './access-role/access-role.module';
+import { StaffModule } from './staff/staff.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { AccessRoleModule } from './access-role/access-role.module';
     AuthModule,
     BranchModule,
     AccessRoleModule,
+    StaffModule,
   ],
   controllers: [AppController],
   providers: [

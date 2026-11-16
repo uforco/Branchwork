@@ -33,6 +33,7 @@ export class BranchController {
     return this.branchService.findAll(organizationId);
   }
 
+  @Roles(Role.Owner)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateBranchDto: UpdateBranchDto) {
     return this.branchService.update(id, updateBranchDto);

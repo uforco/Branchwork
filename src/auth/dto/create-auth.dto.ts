@@ -21,5 +21,7 @@ export class CreateAuthDto extends LoginAuthDto {
     description: 'The name of the organization',
     default: 'Md Sharif',
   })
+  @IsString({ message: 'name must be a string' })
+  @IsNotEmpty({ message: 'name cannot be empty' })
   name!: string;
 }

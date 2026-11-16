@@ -57,8 +57,6 @@ export class AuthService {
 
   // create a new organization
   async create(createAuthDto: CreateAuthDto) {
-    // const { organization_name, name, email, password } = createAuthDto;
-
     // check if the email already exists
     const isEmailExist = await this.findUserByEmail(createAuthDto.email);
     if (isEmailExist)
@@ -162,7 +160,7 @@ export class AuthService {
   // create Jwt token
   private async createJwtToken(payload: PayloadInterface) {
     return this.jwtService.signAsync(payload, {
-      expiresIn: '1h',
+      expiresIn: '6h',
     });
   }
 }
