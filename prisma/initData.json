@@ -1,0 +1,23 @@
+{
+  "PermissionIntData": [
+    { "key": "user.read", "description": "View user details and user lists" },
+    { "key": "user.create", "description": "Create new users" },
+    { "key": "user.update", "description": "Update existing user information" },
+    { "key": "user.delete", "description": "Delete users from the system" },
+    {
+      "key": "role.read",
+      "description": "View roles and their assigned permissions"
+    },
+    { "key": "role.create", "description": "Create new roles" },
+    { "key": "role.update", "description": "Update existing roles" },
+    { "key": "role.delete", "description": "Delete roles from the system" },
+    {
+      "key": "permission.read",
+      "description": "View available system permissions"
+    },
+    { "key": "post.read", "description": "View posts and post details" },
+    { "key": "post.create", "description": "Create new posts" },
+    { "key": "post.update", "description": "Update existing posts" },
+    { "key": "post.delete", "description": "Delete posts from the system" }
+  ]
+}
