@@ -1,5 +1,6 @@
 {
   "PermissionIntData": [
+    { "key": "owner.all", "description": "All Access Owne Organiztion" },
     { "key": "user.read", "description": "View user details and user lists" },
     { "key": "user.create", "description": "Create new users" },
     { "key": "user.update", "description": "Update existing user information" },

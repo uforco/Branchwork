@@ -76,7 +76,11 @@ export class AuthService {
           email: createAuthDto.email,
           name: createAuthDto.name,
           password: createAuthDto.password,
-          role: 'owner',
+          userRole: {
+            create: {
+              role: 'OWNER',
+            },
+          },
           organization: {
             create: {
               organization_name: createAuthDto.organization_name,
