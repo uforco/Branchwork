@@ -19,7 +19,7 @@ import { Role } from '../auth/guard/role.enum';
 export class StaffController {
   constructor(private readonly staffService: StaffService) {}
 
-  @Roles(Role.Owner)
+  @Roles(Role.Owner, Role.Branch_manager)
   @Post('Add-new-staff')
   create(@Body() createStaffDto: CreateStaffDto, @User() user: AuthUser) {
     return this.staffService.create(createStaffDto, user);
@@ -31,7 +31,7 @@ export class StaffController {
     return this.staffService.findAll(user);
   }
 
-  @Roles(Role.Owner)
+  @Roles(Role.Owner, Role.Branch_manager)
   @Patch(':id')
   update(
     @Param('id') id: string,

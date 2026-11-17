@@ -10,6 +10,10 @@ import {
 import { AccessRoleService } from './access-role.service';
 import { CreateAccessRoleDto } from './dto/create-access-role.dto';
 import { UpdateAccessRoleDto } from './dto/update-access-role.dto';
+import { Roles } from '../auth/guard/roles.decorator';
+import { Role } from '../auth/guard/role.enum';
+import { User } from '../auth/guard/user.decorator';
+import type { AuthUser } from '../auth/guard/user.decorator';
 
 @Controller('access-role')
 export class AccessRoleController {
@@ -20,9 +24,10 @@ export class AccessRoleController {
     return this.accessRoleService.create(createAccessRoleDto);
   }
 
+  @Roles(Role.Owner)
   @Get()
-  findAll() {
-    return this.accessRoleService.findAll();
+  findAll(@User() user: AuthUser) {
+    return this.accessRoleService.findAll(user);
   }
 
   @Get(':id')
