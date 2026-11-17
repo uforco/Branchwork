@@ -30,7 +30,6 @@ export class StaffService {
       const newStaff = await this.db.user.create({
         data: {
           ...createStaffDto,
-          role: Role.stock_clerk,
           organizationId: user.organizationId,
         },
       });
@@ -98,7 +97,7 @@ export class StaffService {
   }
 
   // this func for update staff by id
-  async update(id: string, updateStaffDto: UpdateStaffDto, user: AuthUser) {
+  update(id: string, updateStaffDto: UpdateStaffDto, user: AuthUser) {
     if (user.id === id && Role.Branch_manager === user.role)
       throw new ConflictException('You can not update your own role');
 
@@ -106,20 +105,20 @@ export class StaffService {
       updateStaffDto.branch_id = user.branch_id;
 
     try {
-      const update = await this.db.user.update({
-        where: {
-          id,
-          role: {
-            not: Role.Owner,
-          },
-        },
-        data: { ...updateStaffDto },
-      });
-      return {
-        success: true,
-        message: 'Staff updated successfully',
-        data: update,
-      };
+      // const update = await this.db.user.update({
+      //   where: {
+      //     id,
+      //     role: {
+      //       not: Role.Owner,
+      //     },
+      //   },
+      //   data: { ...updateStaffDto },
+      // });
+      // return {
+      //   success: true,
+      //   message: 'Staff updated successfully',
+      //   data: update,
+      // };
     } catch (error) {
       if (error instanceof Error && 'code' in error && error.code === 'P2025')
         throw new NotFoundException('Staff not found');

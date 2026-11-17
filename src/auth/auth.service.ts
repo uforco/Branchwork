@@ -13,7 +13,6 @@ import { JwtService } from '@nestjs/jwt';
 
 export interface PayloadInterface {
   sub: string;
-  role: string;
   organizationId?: string;
   branch_id?: string;
 }
@@ -69,6 +68,9 @@ export class AuthService {
       createAuthDto.password,
     );
 
+    // create a new role for the organization owner
+    const ownerPermission = await this.getOwnerPermission();
+
     try {
       // create a new organization and User
       const newUser = await this.db.user.create({
@@ -76,9 +78,10 @@ export class AuthService {
           email: createAuthDto.email,
           name: createAuthDto.name,
           password: createAuthDto.password,
-          userRole: {
+          role: {
             create: {
-              role: 'OWNER',
+              name: 'OWNER',
+              description: ownerPermission?.description,
             },
           },
           organization: {
@@ -89,14 +92,39 @@ export class AuthService {
         },
         include: {
           organization: true,
+          role: true,
         },
       });
-      return { message: 'organization created successfully', data: newUser };
+      // userRole create
+      await this.db.userRole.create({
+        data: {
+          userId: newUser.id,
+          roleId: newUser.role.id,
+        },
+      });
+      return {
+        message: 'organization created successfully',
+        data: newUser,
+      };
     } catch (error) {
       this.logger.debug(error);
       throw new InternalServerErrorException(
         'internal server error please try after some time',
       );
+    }
+  }
+
+  // get owner permission
+  private async getOwnerPermission() {
+    try {
+      return await this.db.permission.findFirst({
+        where: {
+          key: 'owner.all',
+        },
+      });
+    } catch (err) {
+      this.logger.debug(err);
+      throw new InternalServerErrorException();
     }
   }
 
@@ -136,8 +164,8 @@ export class AuthService {
     if (!isPasswordMatch) throw new NotFoundException('invalid cadential');
 
     // prepare the payload for the jwt token
-    const { id: sub, name, role, organization, branch_id } = rest;
-    const payload = { sub, role };
+    const { id: sub, name, organization, branch_id } = rest;
+    const payload = { sub };
     if (organization && organization.id)
       payload['organizationId'] = organization.id;
     if (branch_id) payload['branch_id'] = branch_id;
@@ -149,7 +177,6 @@ export class AuthService {
         data: {
           name,
           email,
-          role,
           organization: organization?.organization_name,
         },
       };

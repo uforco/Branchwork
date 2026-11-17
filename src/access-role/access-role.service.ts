@@ -13,17 +13,17 @@ export class AccessRoleService {
   }
 
   async findAll(user: AuthUser) {
-    const result = await this.db.user.groupBy({
-      by: ['role'],
-      where: {
-        role: {
-          notIn: [user.role],
-        },
-        organizationId: user.organizationId,
-      },
-      
-    });
-    return result;
+    // const result = await this.db.user.groupBy({
+    //   by: ['role'],
+    //   where: {
+    //     role: {
+    //       notIn: [user.role],
+    //     },
+    //     organizationId: user.organizationId,
+    //   },
+
+    // });
+    // return result;
   }
 
   findOne(id: number) {
