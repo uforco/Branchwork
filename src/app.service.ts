@@ -10,16 +10,11 @@ export class AppService {
   }
 
   async findAll() {
-    const users = await this.prisma.user.findMany({
+    const users = await this.prisma.permission.findMany({
       select: {
-        id: true,
-        name: true,
-        email: true,
-        role: true,
-        organizationId: true,
-        branch_id: true,
+        key: true,
       },
     });
-    return users;
+    return users.flatMap((user) => user.key);
   }
 }

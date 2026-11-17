@@ -10,9 +10,9 @@ import { ConfigService } from '@nestjs/config';
 import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
 import { DbPrismaService } from '../../config/db-prisma/db-prisma.service';
-import { Role } from './role.enum';
-import { ROLES_KEY } from './roles.decorator';
+import { PERMISSION_KEY } from './roles.decorator';
 import { jwtPayloadInterface } from '../auth.service';
+import { Permission } from './role.enum';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -28,10 +28,10 @@ export class AuthGuard implements CanActivate {
     const request = context.switchToHttp().getRequest<Request>();
 
     // Get required roles from metadata
-    const requiredRoles = this.reflector.getAllAndOverride<Role[]>(ROLES_KEY, [
-      context.getHandler(),
-      context.getClass(),
-    ]);
+    const requiredRoles = this.reflector.getAllAndOverride<Permission[]>(
+      PERMISSION_KEY,
+      [context.getHandler(), context.getClass()],
+    );
 
     // if no roles are required, allow access Public Access
     if (!requiredRoles) return true;

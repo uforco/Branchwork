@@ -1,11 +1,9 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
-import type { Role } from './role.enum';
 
 export type AuthUser = {
   id: string;
   name: string;
   email: string;
-  role: Role;
   organizationId: string;
   branch_id: string;
 };

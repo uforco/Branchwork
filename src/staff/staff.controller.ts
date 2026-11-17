@@ -12,26 +12,21 @@ import { CreateStaffDto } from './dto/create-staff.dto';
 import { UpdateStaffDto } from './dto/update-staff.dto';
 import type { AuthUser } from '../auth/guard/user.decorator';
 import { User } from '../auth/guard/user.decorator';
-import { Roles } from '../auth/guard/roles.decorator';
-import { Role } from '../auth/guard/role.enum';
 
 @Controller('staff')
 export class StaffController {
   constructor(private readonly staffService: StaffService) {}
 
-  @Roles(Role.Owner, Role.Branch_manager)
   @Post('Add-new-staff')
   create(@Body() createStaffDto: CreateStaffDto, @User() user: AuthUser) {
     return this.staffService.create(createStaffDto, user);
   }
 
-  @Roles(Role.Owner, Role.Branch_manager)
   @Get()
   findAll(@User() user: AuthUser) {
     return this.staffService.findAll(user);
   }
 
-  @Roles(Role.Owner, Role.Branch_manager)
   @Patch(':id')
   update(
     @Param('id') id: string,
@@ -41,7 +36,6 @@ export class StaffController {
     return this.staffService.update(id, updateStaffDto, user);
   }
 
-  @Roles(Role.Owner)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.staffService.remove(id);

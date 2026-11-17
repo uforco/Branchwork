@@ -8,7 +8,6 @@ import {
 import { CreateStaffDto } from './dto/create-staff.dto';
 import { UpdateStaffDto } from './dto/update-staff.dto';
 import { DbPrismaService } from '../config/db-prisma/db-prisma.service';
-import { Role } from '../auth/guard/role.enum';
 import { AuthUser } from '../auth/guard/user.decorator';
 
 @Injectable()
@@ -18,8 +17,6 @@ export class StaffService {
 
   // create organization with staff defualt role
   async create(createStaffDto: CreateStaffDto, user: AuthUser) {
-    if (user.role === Role.Branch_manager)
-      createStaffDto.branch_id = user.branch_id;
     try {
       const isExist = await this.db.user.findUnique({
         where: {
@@ -54,14 +51,14 @@ export class StaffService {
 
   findAll(user: AuthUser) {
     const Query = {};
-    if (user.role === Role.Owner) {
-      Query['id'] = { not: user.id };
-      Query['organizationId'] = user.organizationId;
-    }
-    if (user.role === Role.Branch_manager) {
-      Query['branch_id'] = user.branch_id;
-      Query['organizationId'] = user.organizationId;
-    }
+    // if (user.role === Role.Owner) {
+    //   Query['id'] = { not: user.id };
+    //   Query['organizationId'] = user.organizationId;
+    // }
+    // if (user.role === Role.Branch_manager) {
+    //   Query['branch_id'] = user.branch_id;
+    //   Query['organizationId'] = user.organizationId;
+    // }
 
     const getAllStaff = this.db.user.findMany({
       where: Query,
@@ -98,11 +95,8 @@ export class StaffService {
 
   // this func for update staff by id
   update(id: string, updateStaffDto: UpdateStaffDto, user: AuthUser) {
-    if (user.id === id && Role.Branch_manager === user.role)
+    if (user.id === id)
       throw new ConflictException('You can not update your own role');
-
-    if (user.id !== id && Role.Branch_manager === user.role)
-      updateStaffDto.branch_id = user.branch_id;
 
     try {
       // const update = await this.db.user.update({
