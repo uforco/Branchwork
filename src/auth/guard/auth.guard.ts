@@ -12,7 +12,7 @@ import { JwtService } from '@nestjs/jwt';
 import { DbPrismaService } from '../../config/db-prisma/db-prisma.service';
 import { Role } from './role.enum';
 import { ROLES_KEY } from './roles.decorator';
-import { PayloadInterface } from '../auth.service';
+import { jwtPayloadInterface } from '../auth.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -42,7 +42,7 @@ export class AuthGuard implements CanActivate {
 
     // token checking
     if (token === '') throw new UnauthorizedException();
-    const payload = await this.verifyToken<PayloadInterface>(token);
+    const payload = await this.verifyToken<jwtPayloadInterface>(token);
 
     // push user data to the request object
     await this.userDataPushInterceptor(payload.sub, request);
