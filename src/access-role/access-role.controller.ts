@@ -38,17 +38,25 @@ export class AccessRoleController {
   /* Create api Function End Area */
 
   // Read all roles
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.accessRoleService.findOne(+id);
+
+  // Get All Role And Permisstion
+  @Permissions(Permission.ROLE_READ)
+  @Get('all-role-permission')
+  getAllRolesWithPermissions(@User() user: AuthUser) {
+    return this.accessRoleService.getAllRolesWithPermissions(user);
   }
+
+  // @Get(':id')
+  // findOne(@Param('id') id: string) {
+  //   return this.accessRoleService.findOne(+id);
+  // }
 
   @Patch(':id')
   update(
     @Param('id') id: string,
     @Body() updateAccessRoleDto: UpdateAccessRoleDto,
   ) {
-    return this.accessRoleService.update(+id, updateAccessRoleDto);
+    return this.accessRoleService.update(id, updateAccessRoleDto);
   }
 
   @Delete(':id')

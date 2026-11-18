@@ -23,6 +23,7 @@ export class AccessRoleService {
           data: {
             ...rest,
             userId: user.id,
+            organizationId: user.organizationId,
           },
         });
         await tx.rolePermission.createMany({
@@ -58,13 +59,94 @@ export class AccessRoleService {
   }
   /* Create Role Function End Area */
 
-
-  findOne(id: number) {
-    return `This action returns a #${id} accessRole`;
+  async getAllRolesWithPermissions(user: AuthUser) {
+    const data = this.db.role.findMany({
+      where: {
+        organizationId: user.organizationId,
+        // rolePermission: {
+        //   permission: {
+        //     key: {
+        //       notIn: [Permission.OWNER_ALL],
+        //     },
+        //   },
+        // },
+      },
+      select: {
+        id: true,
+        name: true,
+        description: true,
+        rolePermission: {
+          select: {
+            permission: {
+              select: {
+                id: true,
+                description: true,
+              },
+            },
+          },
+        },
+      },
+    });
+    return data;
   }
 
-  update(id: number, updateAccessRoleDto: UpdateAccessRoleDto) {
-    return `This action updates a #${id} accessRole`;
+  async findOne(id: string) {
+    const data = await this.db.role.findMany({
+      where: {
+        id,
+      },
+      select: {
+        id: true,
+        name: true,
+        description: true,
+        rolePermission: {
+          select: {
+            permission: {
+              select: {
+                id: true,
+                description: true,
+              },
+            },
+          },
+        },
+      },
+    });
+    return data;
+  }
+
+  async update(id: string, updateAccessRoleDto: UpdateAccessRoleDto) {
+    const { permission, ...rest } = updateAccessRoleDto;
+    try {
+      await this.db.$transaction(async (tx) => {
+        const role = await tx.role.update({
+          where: { id },
+          data: {
+            ...rest,
+          },
+        });
+        if (permission && permission.length > 0) {
+          console.log(permission);
+          await tx.rolePermission.deleteMany({
+            where: {
+              roleId: role.id,
+            },
+          });
+
+          await tx.rolePermission.createMany({
+            data: permission.map((item) => ({
+              roleId: role.id,
+              permissionId: item.permissionId,
+            })),
+          });
+        }
+        return role;
+      });
+
+      return { message: 'updated success', data: await this.findOne(id) };
+    } catch (err) {
+      this.logger.debug('error caught in create access role service: ', err);
+      throw new InternalServerErrorException();
+    }
   }
 
   remove(id: number) {

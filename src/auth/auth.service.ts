@@ -113,7 +113,7 @@ export class AuthService {
             name: 'OWNER',
             userId: newUser.id,
             description: ownerPermission.description,
-            organizationId: newUser.organizationId,
+            organizationId: newUser['organizationId'] as string,
             rolePermission: {
               create: { permissionId: ownerPermission.id },
             },
