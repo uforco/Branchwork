@@ -1,15 +1,16 @@
 # ── Stage 1: Build ──────────────────────────────────────────────────────────
-FROM node:22 AS builder
-
+FROM node:24 AS builder
 
 WORKDIR /app
 
-# Copy package files
-COPY package*.json ./
-
-# RUN pnpm install --frozen-lockfile
 # Install deps
-RUN npm i -g pnpm@latest && pnpm i
+RUN npm install -g pnpm@latest
+
+# Copy package files
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+
+# Appliction deps
+RUN pnpm install --frozen-lockfile
 
 # Copy prisma folder
 COPY prisma ./prisma
@@ -17,9 +18,9 @@ COPY prisma7.config.ts ./
 
 COPY . .
 
-RUN npm run prisma:generate
+RUN pnpm exec prisma generate
 
-RUN npm run build
+RUN pnpm build
 
 # ── Stage 2: Production ──────────────────────────────────────────────────────
 FROM node:22-alpine3.21 AS production
@@ -36,4 +37,4 @@ COPY --from=builder /app/prisma7.config.ts ./prisma7.config.ts
 ENV NODE_ENV=production
 EXPOSE 3000
 
-CMD ["npm", "run", "start:prod"]
+CMD ["pnpm", "start:prod"]
