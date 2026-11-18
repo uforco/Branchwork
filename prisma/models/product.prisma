@@ -1,14 +1,14 @@
 model Products {
-    id             String        @id @unique @default(uuid())
+    id             String       @id @unique @default(uuid())
     product_name   String
     sku            String
     categury       String
-    price          Decimal       @default(0.00)
-    stock          Decimal       @default(0)
+    price          Decimal      @default(0.00)
+    stock          Decimal      @default(0)
     branchId       String
-    branch         Branches      @relation(fields: [branchId], references: [id])
+    branch         Branches     @relation(fields: [branchId], references: [id])
     organizationId String
-    organization   Organization? @relation(fields: [organizationId], references: [id])
-    createAt       DateTime      @default(now())
-    update         DateTime      @updatedAt
+    organization   Organization @relation(fields: [organizationId], references: [id])
+    createAt       DateTime     @default(now())
+    update         DateTime     @updatedAt
 }

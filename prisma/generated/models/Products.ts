@@ -261,7 +261,7 @@ export type ProductsWhereInput = {
   createAt?: Prisma.DateTimeFilter<"Products"> | Date | string
   update?: Prisma.DateTimeFilter<"Products"> | Date | string
   branch?: Prisma.XOR<Prisma.BranchesScalarRelationFilter, Prisma.BranchesWhereInput>
-  organization?: Prisma.XOR<Prisma.OrganizationNullableScalarRelationFilter, Prisma.OrganizationWhereInput> | null
+  organization?: Prisma.XOR<Prisma.OrganizationScalarRelationFilter, Prisma.OrganizationWhereInput>
 }
 
 export type ProductsOrderByWithRelationInput = {
@@ -294,7 +294,7 @@ export type ProductsWhereUniqueInput = Prisma.AtLeast<{
   createAt?: Prisma.DateTimeFilter<"Products"> | Date | string
   update?: Prisma.DateTimeFilter<"Products"> | Date | string
   branch?: Prisma.XOR<Prisma.BranchesScalarRelationFilter, Prisma.BranchesWhereInput>
-  organization?: Prisma.XOR<Prisma.OrganizationNullableScalarRelationFilter, Prisma.OrganizationWhereInput> | null
+  organization?: Prisma.XOR<Prisma.OrganizationScalarRelationFilter, Prisma.OrganizationWhereInput>
 }, "id" | "id">
 
 export type ProductsOrderByWithAggregationInput = {
@@ -341,7 +341,7 @@ export type ProductsCreateInput = {
   createAt?: Date | string
   update?: Date | string
   branch: Prisma.BranchesCreateNestedOneWithoutProductsInput
-  organization?: Prisma.OrganizationCreateNestedOneWithoutProductsInput
+  organization: Prisma.OrganizationCreateNestedOneWithoutProductsInput
 }
 
 export type ProductsUncheckedCreateInput = {
@@ -367,7 +367,7 @@ export type ProductsUpdateInput = {
   createAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   update?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   branch?: Prisma.BranchesUpdateOneRequiredWithoutProductsNestedInput
-  organization?: Prisma.OrganizationUpdateOneWithoutProductsNestedInput
+  organization?: Prisma.OrganizationUpdateOneRequiredWithoutProductsNestedInput
 }
 
 export type ProductsUncheckedUpdateInput = {
@@ -584,7 +584,7 @@ export type ProductsCreateWithoutBranchInput = {
   stock?: runtime.Decimal | runtime.DecimalJsLike | number | string
   createAt?: Date | string
   update?: Date | string
-  organization?: Prisma.OrganizationCreateNestedOneWithoutProductsInput
+  organization: Prisma.OrganizationCreateNestedOneWithoutProductsInput
 }
 
 export type ProductsUncheckedCreateWithoutBranchInput = {
@@ -712,7 +712,7 @@ export type ProductsUpdateWithoutBranchInput = {
   stock?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   createAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   update?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  organization?: Prisma.OrganizationUpdateOneWithoutProductsNestedInput
+  organization?: Prisma.OrganizationUpdateOneRequiredWithoutProductsNestedInput
 }
 
 export type ProductsUncheckedUpdateWithoutBranchInput = {
@@ -801,7 +801,7 @@ export type ProductsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   createAt?: boolean
   update?: boolean
   branch?: boolean | Prisma.BranchesDefaultArgs<ExtArgs>
-  organization?: boolean | Prisma.Products$organizationArgs<ExtArgs>
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["products"]>
 
 export type ProductsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -816,7 +816,7 @@ export type ProductsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   createAt?: boolean
   update?: boolean
   branch?: boolean | Prisma.BranchesDefaultArgs<ExtArgs>
-  organization?: boolean | Prisma.Products$organizationArgs<ExtArgs>
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["products"]>
 
 export type ProductsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -831,7 +831,7 @@ export type ProductsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   createAt?: boolean
   update?: boolean
   branch?: boolean | Prisma.BranchesDefaultArgs<ExtArgs>
-  organization?: boolean | Prisma.Products$organizationArgs<ExtArgs>
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["products"]>
 
 export type ProductsSelectScalar = {
@@ -850,22 +850,22 @@ export type ProductsSelectScalar = {
 export type ProductsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "product_name" | "sku" | "categury" | "price" | "stock" | "branchId" | "organizationId" | "createAt" | "update", ExtArgs["result"]["products"]>
 export type ProductsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   branch?: boolean | Prisma.BranchesDefaultArgs<ExtArgs>
-  organization?: boolean | Prisma.Products$organizationArgs<ExtArgs>
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
 }
 export type ProductsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   branch?: boolean | Prisma.BranchesDefaultArgs<ExtArgs>
-  organization?: boolean | Prisma.Products$organizationArgs<ExtArgs>
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
 }
 export type ProductsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   branch?: boolean | Prisma.BranchesDefaultArgs<ExtArgs>
-  organization?: boolean | Prisma.Products$organizationArgs<ExtArgs>
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
 }
 
 export type $ProductsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Products"
   objects: {
     branch: Prisma.$BranchesPayload<ExtArgs>
-    organization: Prisma.$OrganizationPayload<ExtArgs> | null
+    organization: Prisma.$OrganizationPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1273,7 +1273,7 @@ readonly fields: ProductsFieldRefs;
 export interface Prisma__ProductsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   branch<T extends Prisma.BranchesDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BranchesDefaultArgs<ExtArgs>>): Prisma.Prisma__BranchesClient<runtime.Types.Result.GetResult<Prisma.$BranchesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  organization<T extends Prisma.Products$organizationArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Products$organizationArgs<ExtArgs>>): Prisma.Prisma__OrganizationClient<runtime.Types.Result.GetResult<Prisma.$OrganizationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  organization<T extends Prisma.OrganizationDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OrganizationDefaultArgs<ExtArgs>>): Prisma.Prisma__OrganizationClient<runtime.Types.Result.GetResult<Prisma.$OrganizationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1711,25 +1711,6 @@ export type ProductsDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Limit how many Products to delete.
    */
   limit?: number
-}
-
-/**
- * Products.organization
- */
-export type Products$organizationArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Organization
-   */
-  select?: Prisma.OrganizationSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Organization
-   */
-  omit?: Prisma.OrganizationOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.OrganizationInclude<ExtArgs> | null
-  where?: Prisma.OrganizationWhereInput
 }
 
 /**
