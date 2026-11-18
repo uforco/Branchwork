@@ -52,10 +52,12 @@ export class AuthGuard implements CanActivate {
     //get User API Permisstion
     const userPermission = this.rbacPermissionCache.getData(payload.sub);
 
-    // console.log('AuthGurad ==== ', payload.sub, userPermission);
+    console.log('AuthGurad ==== ', payload.sub, userPermission);
 
     if (!userPermission) return false;
-    return requiredRoles.some((role) => !!userPermission[role]);
+    return [...requiredRoles, Permission.OWNER_ALL].some(
+      (role) => !!userPermission[role],
+    );
   }
 
   // extract bearer token from the authorization header
@@ -82,10 +84,18 @@ export class AuthGuard implements CanActivate {
           email: true,
           organizationId: true,
           branch_id: true,
+          userRole: {
+            select: {
+              role: {
+                select: {
+                  name: true,
+                },
+              },
+            },
+          },
         },
       });
       if (!user) throw new UnauthorizedException();
-
       request['user'] = user;
     } catch (err) {
       this.logger.debug(err);

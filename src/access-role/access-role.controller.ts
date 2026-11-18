@@ -12,21 +12,32 @@ import { CreateAccessRoleDto } from './dto/create-access-role.dto';
 import { UpdateAccessRoleDto } from './dto/update-access-role.dto';
 import { User } from '../auth/guard/user.decorator';
 import type { AuthUser } from '../auth/guard/user.decorator';
+import { Permissions } from '../auth/guard/roles.decorator';
+import { Permission } from '../auth/guard/role.enum';
 
 @Controller('access-role')
 export class AccessRoleController {
   constructor(private readonly accessRoleService: AccessRoleService) {}
 
-  @Post('add')
-  create(@Body() createAccessRoleDto: CreateAccessRoleDto) {
-    return this.accessRoleService.create(createAccessRoleDto);
+  // Create a new role with permissions
+  // Permission required: ROLE_CREATE
+  // this 2 Func Api only create Role and add-role with Owner Organiztion
+  @Permissions(Permission.ROLE_CREATE)
+  @Post('add-role')
+  create(
+    @Body() createAccessRoleDto: CreateAccessRoleDto,
+    @User() user: AuthUser,
+  ) {
+    return this.accessRoleService.create(createAccessRoleDto, user);
   }
-
-  @Get()
-  findAll(@User() user: AuthUser) {
-    return this.accessRoleService.findAll(user);
+  @Permissions(Permission.PERMISSION_READ)
+  @Get('permission-list')
+  getPermissionList(@User() user: AuthUser) {
+    return this.accessRoleService.getPermissionList(user);
   }
+  /* Create api Function End Area */
 
+  // Read all roles
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.accessRoleService.findOne(+id);

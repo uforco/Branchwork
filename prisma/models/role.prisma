@@ -8,6 +8,9 @@ model Role {
     userId         String?
     rolePermission RolePermission[]
     userRoles      UserRole[]
+    // Organization Role
+    organizationId String
+    organization   Organization     @relation(fields: [organizationId], references: [id])
 
     @@unique([name, userId])
 }

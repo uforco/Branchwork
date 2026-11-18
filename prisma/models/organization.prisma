@@ -3,4 +3,5 @@ model Organization {
     organization_name String
     user              User[]
     branches          Branches[]
+    role              Role[]
 }
