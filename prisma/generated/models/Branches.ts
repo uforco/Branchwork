@@ -309,11 +309,6 @@ export type BranchesOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type BranchesScalarRelationFilter = {
-  is?: Prisma.BranchesWhereInput
-  isNot?: Prisma.BranchesWhereInput
-}
-
 export type BranchesNullableScalarRelationFilter = {
   is?: Prisma.BranchesWhereInput | null
   isNot?: Prisma.BranchesWhereInput | null
@@ -375,10 +370,12 @@ export type BranchesCreateNestedOneWithoutProductsInput = {
   connect?: Prisma.BranchesWhereUniqueInput
 }
 
-export type BranchesUpdateOneRequiredWithoutProductsNestedInput = {
+export type BranchesUpdateOneWithoutProductsNestedInput = {
   create?: Prisma.XOR<Prisma.BranchesCreateWithoutProductsInput, Prisma.BranchesUncheckedCreateWithoutProductsInput>
   connectOrCreate?: Prisma.BranchesCreateOrConnectWithoutProductsInput
   upsert?: Prisma.BranchesUpsertWithoutProductsInput
+  disconnect?: Prisma.BranchesWhereInput | boolean
+  delete?: Prisma.BranchesWhereInput | boolean
   connect?: Prisma.BranchesWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.BranchesUpdateToOneWithWhereWithoutProductsInput, Prisma.BranchesUpdateWithoutProductsInput>, Prisma.BranchesUncheckedUpdateWithoutProductsInput>
 }

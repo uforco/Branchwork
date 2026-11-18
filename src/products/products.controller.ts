@@ -22,7 +22,7 @@ export class ProductsController {
   @Permissions(Permission.PRODUCT_CREATE)
   @Post()
   create(@Body() createProductDto: CreateProductDto, @User() user: AuthUser) {
-    return this.productsService.create(createProductDto, user);
+    return this.productsService.createProduct(createProductDto, user);
   }
   @Permissions(Permission.PRODUCT_CREATE)
   @Get('create-product-selete-branch')

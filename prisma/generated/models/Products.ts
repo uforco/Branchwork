@@ -220,7 +220,7 @@ export type ProductsGroupByOutputType = {
   categury: string
   price: runtime.Decimal
   stock: runtime.Decimal
-  branchId: string
+  branchId: string | null
   organizationId: string
   createAt: Date
   update: Date
@@ -256,11 +256,11 @@ export type ProductsWhereInput = {
   categury?: Prisma.StringFilter<"Products"> | string
   price?: Prisma.DecimalFilter<"Products"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   stock?: Prisma.DecimalFilter<"Products"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  branchId?: Prisma.StringFilter<"Products"> | string
+  branchId?: Prisma.StringNullableFilter<"Products"> | string | null
   organizationId?: Prisma.StringFilter<"Products"> | string
   createAt?: Prisma.DateTimeFilter<"Products"> | Date | string
   update?: Prisma.DateTimeFilter<"Products"> | Date | string
-  branch?: Prisma.XOR<Prisma.BranchesScalarRelationFilter, Prisma.BranchesWhereInput>
+  branch?: Prisma.XOR<Prisma.BranchesNullableScalarRelationFilter, Prisma.BranchesWhereInput> | null
   organization?: Prisma.XOR<Prisma.OrganizationScalarRelationFilter, Prisma.OrganizationWhereInput>
 }
 
@@ -271,7 +271,7 @@ export type ProductsOrderByWithRelationInput = {
   categury?: Prisma.SortOrder
   price?: Prisma.SortOrder
   stock?: Prisma.SortOrder
-  branchId?: Prisma.SortOrder
+  branchId?: Prisma.SortOrderInput | Prisma.SortOrder
   organizationId?: Prisma.SortOrder
   createAt?: Prisma.SortOrder
   update?: Prisma.SortOrder
@@ -289,11 +289,11 @@ export type ProductsWhereUniqueInput = Prisma.AtLeast<{
   categury?: Prisma.StringFilter<"Products"> | string
   price?: Prisma.DecimalFilter<"Products"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   stock?: Prisma.DecimalFilter<"Products"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  branchId?: Prisma.StringFilter<"Products"> | string
+  branchId?: Prisma.StringNullableFilter<"Products"> | string | null
   organizationId?: Prisma.StringFilter<"Products"> | string
   createAt?: Prisma.DateTimeFilter<"Products"> | Date | string
   update?: Prisma.DateTimeFilter<"Products"> | Date | string
-  branch?: Prisma.XOR<Prisma.BranchesScalarRelationFilter, Prisma.BranchesWhereInput>
+  branch?: Prisma.XOR<Prisma.BranchesNullableScalarRelationFilter, Prisma.BranchesWhereInput> | null
   organization?: Prisma.XOR<Prisma.OrganizationScalarRelationFilter, Prisma.OrganizationWhereInput>
 }, "id" | "id">
 
@@ -304,7 +304,7 @@ export type ProductsOrderByWithAggregationInput = {
   categury?: Prisma.SortOrder
   price?: Prisma.SortOrder
   stock?: Prisma.SortOrder
-  branchId?: Prisma.SortOrder
+  branchId?: Prisma.SortOrderInput | Prisma.SortOrder
   organizationId?: Prisma.SortOrder
   createAt?: Prisma.SortOrder
   update?: Prisma.SortOrder
@@ -325,7 +325,7 @@ export type ProductsScalarWhereWithAggregatesInput = {
   categury?: Prisma.StringWithAggregatesFilter<"Products"> | string
   price?: Prisma.DecimalWithAggregatesFilter<"Products"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   stock?: Prisma.DecimalWithAggregatesFilter<"Products"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  branchId?: Prisma.StringWithAggregatesFilter<"Products"> | string
+  branchId?: Prisma.StringNullableWithAggregatesFilter<"Products"> | string | null
   organizationId?: Prisma.StringWithAggregatesFilter<"Products"> | string
   createAt?: Prisma.DateTimeWithAggregatesFilter<"Products"> | Date | string
   update?: Prisma.DateTimeWithAggregatesFilter<"Products"> | Date | string
@@ -340,7 +340,7 @@ export type ProductsCreateInput = {
   stock?: runtime.Decimal | runtime.DecimalJsLike | number | string
   createAt?: Date | string
   update?: Date | string
-  branch: Prisma.BranchesCreateNestedOneWithoutProductsInput
+  branch?: Prisma.BranchesCreateNestedOneWithoutProductsInput
   organization: Prisma.OrganizationCreateNestedOneWithoutProductsInput
 }
 
@@ -351,7 +351,7 @@ export type ProductsUncheckedCreateInput = {
   categury: string
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string
   stock?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  branchId: string
+  branchId?: string | null
   organizationId: string
   createAt?: Date | string
   update?: Date | string
@@ -366,7 +366,7 @@ export type ProductsUpdateInput = {
   stock?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   createAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   update?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  branch?: Prisma.BranchesUpdateOneRequiredWithoutProductsNestedInput
+  branch?: Prisma.BranchesUpdateOneWithoutProductsNestedInput
   organization?: Prisma.OrganizationUpdateOneRequiredWithoutProductsNestedInput
 }
 
@@ -377,7 +377,7 @@ export type ProductsUncheckedUpdateInput = {
   categury?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   stock?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  branchId?: Prisma.StringFieldUpdateOperationsInput | string
+  branchId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   createAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   update?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -390,7 +390,7 @@ export type ProductsCreateManyInput = {
   categury: string
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string
   stock?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  branchId: string
+  branchId?: string | null
   organizationId: string
   createAt?: Date | string
   update?: Date | string
@@ -414,7 +414,7 @@ export type ProductsUncheckedUpdateManyInput = {
   categury?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   stock?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  branchId?: Prisma.StringFieldUpdateOperationsInput | string
+  branchId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   createAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   update?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -635,7 +635,7 @@ export type ProductsScalarWhereInput = {
   categury?: Prisma.StringFilter<"Products"> | string
   price?: Prisma.DecimalFilter<"Products"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   stock?: Prisma.DecimalFilter<"Products"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  branchId?: Prisma.StringFilter<"Products"> | string
+  branchId?: Prisma.StringNullableFilter<"Products"> | string | null
   organizationId?: Prisma.StringFilter<"Products"> | string
   createAt?: Prisma.DateTimeFilter<"Products"> | Date | string
   update?: Prisma.DateTimeFilter<"Products"> | Date | string
@@ -650,7 +650,7 @@ export type ProductsCreateWithoutOrganizationInput = {
   stock?: runtime.Decimal | runtime.DecimalJsLike | number | string
   createAt?: Date | string
   update?: Date | string
-  branch: Prisma.BranchesCreateNestedOneWithoutProductsInput
+  branch?: Prisma.BranchesCreateNestedOneWithoutProductsInput
 }
 
 export type ProductsUncheckedCreateWithoutOrganizationInput = {
@@ -660,7 +660,7 @@ export type ProductsUncheckedCreateWithoutOrganizationInput = {
   categury: string
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string
   stock?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  branchId: string
+  branchId?: string | null
   createAt?: Date | string
   update?: Date | string
 }
@@ -746,7 +746,7 @@ export type ProductsCreateManyOrganizationInput = {
   categury: string
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string
   stock?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  branchId: string
+  branchId?: string | null
   createAt?: Date | string
   update?: Date | string
 }
@@ -760,7 +760,7 @@ export type ProductsUpdateWithoutOrganizationInput = {
   stock?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   createAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   update?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  branch?: Prisma.BranchesUpdateOneRequiredWithoutProductsNestedInput
+  branch?: Prisma.BranchesUpdateOneWithoutProductsNestedInput
 }
 
 export type ProductsUncheckedUpdateWithoutOrganizationInput = {
@@ -770,7 +770,7 @@ export type ProductsUncheckedUpdateWithoutOrganizationInput = {
   categury?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   stock?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  branchId?: Prisma.StringFieldUpdateOperationsInput | string
+  branchId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   update?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -782,7 +782,7 @@ export type ProductsUncheckedUpdateManyWithoutOrganizationInput = {
   categury?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   stock?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  branchId?: Prisma.StringFieldUpdateOperationsInput | string
+  branchId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   update?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -800,7 +800,7 @@ export type ProductsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   organizationId?: boolean
   createAt?: boolean
   update?: boolean
-  branch?: boolean | Prisma.BranchesDefaultArgs<ExtArgs>
+  branch?: boolean | Prisma.Products$branchArgs<ExtArgs>
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["products"]>
 
@@ -815,7 +815,7 @@ export type ProductsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   organizationId?: boolean
   createAt?: boolean
   update?: boolean
-  branch?: boolean | Prisma.BranchesDefaultArgs<ExtArgs>
+  branch?: boolean | Prisma.Products$branchArgs<ExtArgs>
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["products"]>
 
@@ -830,7 +830,7 @@ export type ProductsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   organizationId?: boolean
   createAt?: boolean
   update?: boolean
-  branch?: boolean | Prisma.BranchesDefaultArgs<ExtArgs>
+  branch?: boolean | Prisma.Products$branchArgs<ExtArgs>
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["products"]>
 
@@ -849,22 +849,22 @@ export type ProductsSelectScalar = {
 
 export type ProductsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "product_name" | "sku" | "categury" | "price" | "stock" | "branchId" | "organizationId" | "createAt" | "update", ExtArgs["result"]["products"]>
 export type ProductsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  branch?: boolean | Prisma.BranchesDefaultArgs<ExtArgs>
+  branch?: boolean | Prisma.Products$branchArgs<ExtArgs>
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
 }
 export type ProductsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  branch?: boolean | Prisma.BranchesDefaultArgs<ExtArgs>
+  branch?: boolean | Prisma.Products$branchArgs<ExtArgs>
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
 }
 export type ProductsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  branch?: boolean | Prisma.BranchesDefaultArgs<ExtArgs>
+  branch?: boolean | Prisma.Products$branchArgs<ExtArgs>
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
 }
 
 export type $ProductsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Products"
   objects: {
-    branch: Prisma.$BranchesPayload<ExtArgs>
+    branch: Prisma.$BranchesPayload<ExtArgs> | null
     organization: Prisma.$OrganizationPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -874,7 +874,7 @@ export type $ProductsPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     categury: string
     price: runtime.Decimal
     stock: runtime.Decimal
-    branchId: string
+    branchId: string | null
     organizationId: string
     createAt: Date
     update: Date
@@ -1272,7 +1272,7 @@ readonly fields: ProductsFieldRefs;
  */
 export interface Prisma__ProductsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  branch<T extends Prisma.BranchesDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BranchesDefaultArgs<ExtArgs>>): Prisma.Prisma__BranchesClient<runtime.Types.Result.GetResult<Prisma.$BranchesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  branch<T extends Prisma.Products$branchArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Products$branchArgs<ExtArgs>>): Prisma.Prisma__BranchesClient<runtime.Types.Result.GetResult<Prisma.$BranchesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   organization<T extends Prisma.OrganizationDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OrganizationDefaultArgs<ExtArgs>>): Prisma.Prisma__OrganizationClient<runtime.Types.Result.GetResult<Prisma.$OrganizationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1711,6 +1711,25 @@ export type ProductsDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Limit how many Products to delete.
    */
   limit?: number
+}
+
+/**
+ * Products.branch
+ */
+export type Products$branchArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Branches
+   */
+  select?: Prisma.BranchesSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Branches
+   */
+  omit?: Prisma.BranchesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BranchesInclude<ExtArgs> | null
+  where?: Prisma.BranchesWhereInput
 }
 
 /**

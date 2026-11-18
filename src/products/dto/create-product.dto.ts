@@ -73,5 +73,5 @@ export class CreateProductDto {
   })
   @IsString()
   @IsNotEmpty()
-  branchId!: number;
+  branchId!: string;
 }

@@ -14,19 +14,15 @@ export class ProductsService {
   private readonly logger = new Logger(ProductsService.name);
   constructor(private readonly db: DbPrismaService) {}
 
-  async create(createProductDto: CreateProductDto, user: AuthUser) {
+  createProduct(createProductDto: CreateProductDto, user: AuthUser) {
     try {
-      const result = await this.db.products.create({
-        data: {
-          ...createProductDto,
-          organizationId: user.organizationId,
-        },
+      return this.db.products.create({
+        data: { ...createProductDto, organizationId: user.organizationId },
       });
     } catch (error) {
       this.logger.error('Error in create product', error);
       throw new InternalServerErrorException();
     }
-    return 'This action adds a new product';
   }
   async getSeleteBranch(user: AuthUser) {
     try {
