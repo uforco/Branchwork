@@ -28,6 +28,11 @@ export type Branches = Prisma.BranchesModel
  */
 export type Organization = Prisma.OrganizationModel
 /**
+ * Model Products
+ * 
+ */
+export type Products = Prisma.ProductsModel
+/**
  * Model Permission
  * 
  */

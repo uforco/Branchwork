@@ -4,4 +4,5 @@ model Organization {
     user              User[]
     branches          Branches[]
     role              Role[]
+    products          Products[]
 }

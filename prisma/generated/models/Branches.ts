@@ -176,6 +176,7 @@ export type BranchesWhereInput = {
   organizationId?: Prisma.StringNullableFilter<"Branches"> | string | null
   organization?: Prisma.XOR<Prisma.OrganizationNullableScalarRelationFilter, Prisma.OrganizationWhereInput> | null
   user?: Prisma.UserListRelationFilter
+  products?: Prisma.ProductsListRelationFilter
 }
 
 export type BranchesOrderByWithRelationInput = {
@@ -185,6 +186,7 @@ export type BranchesOrderByWithRelationInput = {
   organizationId?: Prisma.SortOrderInput | Prisma.SortOrder
   organization?: Prisma.OrganizationOrderByWithRelationInput
   user?: Prisma.UserOrderByRelationAggregateInput
+  products?: Prisma.ProductsOrderByRelationAggregateInput
 }
 
 export type BranchesWhereUniqueInput = Prisma.AtLeast<{
@@ -197,6 +199,7 @@ export type BranchesWhereUniqueInput = Prisma.AtLeast<{
   organizationId?: Prisma.StringNullableFilter<"Branches"> | string | null
   organization?: Prisma.XOR<Prisma.OrganizationNullableScalarRelationFilter, Prisma.OrganizationWhereInput> | null
   user?: Prisma.UserListRelationFilter
+  products?: Prisma.ProductsListRelationFilter
 }, "id" | "id" | "branch_name">
 
 export type BranchesOrderByWithAggregationInput = {
@@ -225,6 +228,7 @@ export type BranchesCreateInput = {
   city: string
   organization?: Prisma.OrganizationCreateNestedOneWithoutBranchesInput
   user?: Prisma.UserCreateNestedManyWithoutBranchInput
+  products?: Prisma.ProductsCreateNestedManyWithoutBranchInput
 }
 
 export type BranchesUncheckedCreateInput = {
@@ -233,6 +237,7 @@ export type BranchesUncheckedCreateInput = {
   city: string
   organizationId?: string | null
   user?: Prisma.UserUncheckedCreateNestedManyWithoutBranchInput
+  products?: Prisma.ProductsUncheckedCreateNestedManyWithoutBranchInput
 }
 
 export type BranchesUpdateInput = {
@@ -241,6 +246,7 @@ export type BranchesUpdateInput = {
   city?: Prisma.StringFieldUpdateOperationsInput | string
   organization?: Prisma.OrganizationUpdateOneWithoutBranchesNestedInput
   user?: Prisma.UserUpdateManyWithoutBranchNestedInput
+  products?: Prisma.ProductsUpdateManyWithoutBranchNestedInput
 }
 
 export type BranchesUncheckedUpdateInput = {
@@ -249,6 +255,7 @@ export type BranchesUncheckedUpdateInput = {
   city?: Prisma.StringFieldUpdateOperationsInput | string
   organizationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   user?: Prisma.UserUncheckedUpdateManyWithoutBranchNestedInput
+  products?: Prisma.ProductsUncheckedUpdateManyWithoutBranchNestedInput
 }
 
 export type BranchesCreateManyInput = {
@@ -300,6 +307,11 @@ export type BranchesListRelationFilter = {
 
 export type BranchesOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type BranchesScalarRelationFilter = {
+  is?: Prisma.BranchesWhereInput
+  isNot?: Prisma.BranchesWhereInput
 }
 
 export type BranchesNullableScalarRelationFilter = {
@@ -357,6 +369,20 @@ export type BranchesUncheckedUpdateManyWithoutOrganizationNestedInput = {
   deleteMany?: Prisma.BranchesScalarWhereInput | Prisma.BranchesScalarWhereInput[]
 }
 
+export type BranchesCreateNestedOneWithoutProductsInput = {
+  create?: Prisma.XOR<Prisma.BranchesCreateWithoutProductsInput, Prisma.BranchesUncheckedCreateWithoutProductsInput>
+  connectOrCreate?: Prisma.BranchesCreateOrConnectWithoutProductsInput
+  connect?: Prisma.BranchesWhereUniqueInput
+}
+
+export type BranchesUpdateOneRequiredWithoutProductsNestedInput = {
+  create?: Prisma.XOR<Prisma.BranchesCreateWithoutProductsInput, Prisma.BranchesUncheckedCreateWithoutProductsInput>
+  connectOrCreate?: Prisma.BranchesCreateOrConnectWithoutProductsInput
+  upsert?: Prisma.BranchesUpsertWithoutProductsInput
+  connect?: Prisma.BranchesWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.BranchesUpdateToOneWithWhereWithoutProductsInput, Prisma.BranchesUpdateWithoutProductsInput>, Prisma.BranchesUncheckedUpdateWithoutProductsInput>
+}
+
 export type BranchesCreateNestedOneWithoutUserInput = {
   create?: Prisma.XOR<Prisma.BranchesCreateWithoutUserInput, Prisma.BranchesUncheckedCreateWithoutUserInput>
   connectOrCreate?: Prisma.BranchesCreateOrConnectWithoutUserInput
@@ -378,6 +404,7 @@ export type BranchesCreateWithoutOrganizationInput = {
   branch_name: string
   city: string
   user?: Prisma.UserCreateNestedManyWithoutBranchInput
+  products?: Prisma.ProductsCreateNestedManyWithoutBranchInput
 }
 
 export type BranchesUncheckedCreateWithoutOrganizationInput = {
@@ -385,6 +412,7 @@ export type BranchesUncheckedCreateWithoutOrganizationInput = {
   branch_name: string
   city: string
   user?: Prisma.UserUncheckedCreateNestedManyWithoutBranchInput
+  products?: Prisma.ProductsUncheckedCreateNestedManyWithoutBranchInput
 }
 
 export type BranchesCreateOrConnectWithoutOrganizationInput = {
@@ -423,11 +451,60 @@ export type BranchesScalarWhereInput = {
   organizationId?: Prisma.StringNullableFilter<"Branches"> | string | null
 }
 
+export type BranchesCreateWithoutProductsInput = {
+  id?: string
+  branch_name: string
+  city: string
+  organization?: Prisma.OrganizationCreateNestedOneWithoutBranchesInput
+  user?: Prisma.UserCreateNestedManyWithoutBranchInput
+}
+
+export type BranchesUncheckedCreateWithoutProductsInput = {
+  id?: string
+  branch_name: string
+  city: string
+  organizationId?: string | null
+  user?: Prisma.UserUncheckedCreateNestedManyWithoutBranchInput
+}
+
+export type BranchesCreateOrConnectWithoutProductsInput = {
+  where: Prisma.BranchesWhereUniqueInput
+  create: Prisma.XOR<Prisma.BranchesCreateWithoutProductsInput, Prisma.BranchesUncheckedCreateWithoutProductsInput>
+}
+
+export type BranchesUpsertWithoutProductsInput = {
+  update: Prisma.XOR<Prisma.BranchesUpdateWithoutProductsInput, Prisma.BranchesUncheckedUpdateWithoutProductsInput>
+  create: Prisma.XOR<Prisma.BranchesCreateWithoutProductsInput, Prisma.BranchesUncheckedCreateWithoutProductsInput>
+  where?: Prisma.BranchesWhereInput
+}
+
+export type BranchesUpdateToOneWithWhereWithoutProductsInput = {
+  where?: Prisma.BranchesWhereInput
+  data: Prisma.XOR<Prisma.BranchesUpdateWithoutProductsInput, Prisma.BranchesUncheckedUpdateWithoutProductsInput>
+}
+
+export type BranchesUpdateWithoutProductsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  branch_name?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.StringFieldUpdateOperationsInput | string
+  organization?: Prisma.OrganizationUpdateOneWithoutBranchesNestedInput
+  user?: Prisma.UserUpdateManyWithoutBranchNestedInput
+}
+
+export type BranchesUncheckedUpdateWithoutProductsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  branch_name?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.StringFieldUpdateOperationsInput | string
+  organizationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  user?: Prisma.UserUncheckedUpdateManyWithoutBranchNestedInput
+}
+
 export type BranchesCreateWithoutUserInput = {
   id?: string
   branch_name: string
   city: string
   organization?: Prisma.OrganizationCreateNestedOneWithoutBranchesInput
+  products?: Prisma.ProductsCreateNestedManyWithoutBranchInput
 }
 
 export type BranchesUncheckedCreateWithoutUserInput = {
@@ -435,6 +512,7 @@ export type BranchesUncheckedCreateWithoutUserInput = {
   branch_name: string
   city: string
   organizationId?: string | null
+  products?: Prisma.ProductsUncheckedCreateNestedManyWithoutBranchInput
 }
 
 export type BranchesCreateOrConnectWithoutUserInput = {
@@ -458,6 +536,7 @@ export type BranchesUpdateWithoutUserInput = {
   branch_name?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
   organization?: Prisma.OrganizationUpdateOneWithoutBranchesNestedInput
+  products?: Prisma.ProductsUpdateManyWithoutBranchNestedInput
 }
 
 export type BranchesUncheckedUpdateWithoutUserInput = {
@@ -465,6 +544,7 @@ export type BranchesUncheckedUpdateWithoutUserInput = {
   branch_name?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
   organizationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  products?: Prisma.ProductsUncheckedUpdateManyWithoutBranchNestedInput
 }
 
 export type BranchesCreateManyOrganizationInput = {
@@ -478,6 +558,7 @@ export type BranchesUpdateWithoutOrganizationInput = {
   branch_name?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
   user?: Prisma.UserUpdateManyWithoutBranchNestedInput
+  products?: Prisma.ProductsUpdateManyWithoutBranchNestedInput
 }
 
 export type BranchesUncheckedUpdateWithoutOrganizationInput = {
@@ -485,6 +566,7 @@ export type BranchesUncheckedUpdateWithoutOrganizationInput = {
   branch_name?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
   user?: Prisma.UserUncheckedUpdateManyWithoutBranchNestedInput
+  products?: Prisma.ProductsUncheckedUpdateManyWithoutBranchNestedInput
 }
 
 export type BranchesUncheckedUpdateManyWithoutOrganizationInput = {
@@ -500,10 +582,12 @@ export type BranchesUncheckedUpdateManyWithoutOrganizationInput = {
 
 export type BranchesCountOutputType = {
   user: number
+  products: number
 }
 
 export type BranchesCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | BranchesCountOutputTypeCountUserArgs
+  products?: boolean | BranchesCountOutputTypeCountProductsArgs
 }
 
 /**
@@ -523,6 +607,13 @@ export type BranchesCountOutputTypeCountUserArgs<ExtArgs extends runtime.Types.E
   where?: Prisma.UserWhereInput
 }
 
+/**
+ * BranchesCountOutputType without action
+ */
+export type BranchesCountOutputTypeCountProductsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ProductsWhereInput
+}
+
 
 export type BranchesSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -531,6 +622,7 @@ export type BranchesSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   organizationId?: boolean
   organization?: boolean | Prisma.Branches$organizationArgs<ExtArgs>
   user?: boolean | Prisma.Branches$userArgs<ExtArgs>
+  products?: boolean | Prisma.Branches$productsArgs<ExtArgs>
   _count?: boolean | Prisma.BranchesCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["branches"]>
 
@@ -561,6 +653,7 @@ export type BranchesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs =
 export type BranchesInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   organization?: boolean | Prisma.Branches$organizationArgs<ExtArgs>
   user?: boolean | Prisma.Branches$userArgs<ExtArgs>
+  products?: boolean | Prisma.Branches$productsArgs<ExtArgs>
   _count?: boolean | Prisma.BranchesCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type BranchesIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -575,6 +668,7 @@ export type $BranchesPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
   objects: {
     organization: Prisma.$OrganizationPayload<ExtArgs> | null
     user: Prisma.$UserPayload<ExtArgs>[]
+    products: Prisma.$ProductsPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -977,6 +1071,7 @@ export interface Prisma__BranchesClient<T, Null = never, ExtArgs extends runtime
   readonly [Symbol.toStringTag]: "PrismaPromise"
   organization<T extends Prisma.Branches$organizationArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Branches$organizationArgs<ExtArgs>>): Prisma.Prisma__OrganizationClient<runtime.Types.Result.GetResult<Prisma.$OrganizationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   user<T extends Prisma.Branches$userArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Branches$userArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  products<T extends Prisma.Branches$productsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Branches$productsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProductsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1451,6 +1546,30 @@ export type Branches$userArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   take?: number
   skip?: number
   distinct?: Prisma.UserScalarFieldEnum | Prisma.UserScalarFieldEnum[]
+}
+
+/**
+ * Branches.products
+ */
+export type Branches$productsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Products
+   */
+  select?: Prisma.ProductsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Products
+   */
+  omit?: Prisma.ProductsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProductsInclude<ExtArgs> | null
+  where?: Prisma.ProductsWhereInput
+  orderBy?: Prisma.ProductsOrderByWithRelationInput | Prisma.ProductsOrderByWithRelationInput[]
+  cursor?: Prisma.ProductsWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ProductsScalarFieldEnum | Prisma.ProductsScalarFieldEnum[]
 }
 
 /**

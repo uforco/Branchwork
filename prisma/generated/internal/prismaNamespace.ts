@@ -399,6 +399,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 export const ModelName = {
   Branches: 'Branches',
   Organization: 'Organization',
+  Products: 'Products',
   Permission: 'Permission',
   RolePermission: 'RolePermission',
   Role: 'Role',
@@ -419,7 +420,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "branches" | "organization" | "permission" | "rolePermission" | "role" | "userRole" | "user"
+    modelProps: "branches" | "organization" | "products" | "permission" | "rolePermission" | "role" | "userRole" | "user"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -568,6 +569,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.OrganizationCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.OrganizationCountAggregateOutputType> | number
+        }
+      }
+    }
+    Products: {
+      payload: Prisma.$ProductsPayload<ExtArgs>
+      fields: Prisma.ProductsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ProductsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProductsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ProductsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProductsPayload>
+        }
+        findFirst: {
+          args: Prisma.ProductsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProductsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ProductsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProductsPayload>
+        }
+        findMany: {
+          args: Prisma.ProductsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProductsPayload>[]
+        }
+        create: {
+          args: Prisma.ProductsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProductsPayload>
+        }
+        createMany: {
+          args: Prisma.ProductsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ProductsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProductsPayload>[]
+        }
+        delete: {
+          args: Prisma.ProductsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProductsPayload>
+        }
+        update: {
+          args: Prisma.ProductsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProductsPayload>
+        }
+        deleteMany: {
+          args: Prisma.ProductsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ProductsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ProductsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProductsPayload>[]
+        }
+        upsert: {
+          args: Prisma.ProductsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProductsPayload>
+        }
+        aggregate: {
+          args: Prisma.ProductsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateProducts>
+        }
+        groupBy: {
+          args: Prisma.ProductsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ProductsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ProductsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ProductsCountAggregateOutputType> | number
         }
       }
     }
@@ -998,6 +1073,22 @@ export const OrganizationScalarFieldEnum = {
 export type OrganizationScalarFieldEnum = (typeof OrganizationScalarFieldEnum)[keyof typeof OrganizationScalarFieldEnum]
 
 
+export const ProductsScalarFieldEnum = {
+  id: 'id',
+  product_name: 'product_name',
+  sku: 'sku',
+  categury: 'categury',
+  price: 'price',
+  stock: 'stock',
+  branchId: 'branchId',
+  organizationId: 'organizationId',
+  createAt: 'createAt',
+  update: 'update'
+} as const
+
+export type ProductsScalarFieldEnum = (typeof ProductsScalarFieldEnum)[keyof typeof ProductsScalarFieldEnum]
+
+
 export const PermissionScalarFieldEnum = {
   id: 'id',
   key: 'key',
@@ -1092,6 +1183,20 @@ export type StringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 
  * Reference to a field of type 'String[]'
  */
 export type ListStringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Decimal'
+ */
+export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal'>
+    
+
+
+/**
+ * Reference to a field of type 'Decimal[]'
+ */
+export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal[]'>
     
 
 
@@ -1275,6 +1380,7 @@ export type PrismaClientOptions = PrismaClientOptionsWithAccelerateUrl | PrismaC
 export type GlobalOmitConfig = {
   branches?: Prisma.BranchesOmit
   organization?: Prisma.OrganizationOmit
+  products?: Prisma.ProductsOmit
   permission?: Prisma.PermissionOmit
   rolePermission?: Prisma.RolePermissionOmit
   role?: Prisma.RoleOmit

@@ -10,6 +10,7 @@
  */
 export type * from './models/Branches.js'
 export type * from './models/Organization.js'
+export type * from './models/Products.js'
 export type * from './models/Permission.js'
 export type * from './models/RolePermission.js'
 export type * from './models/Role.js'

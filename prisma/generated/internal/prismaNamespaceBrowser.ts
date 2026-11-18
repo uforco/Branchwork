@@ -53,6 +53,7 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   Branches: 'Branches',
   Organization: 'Organization',
+  Products: 'Products',
   Permission: 'Permission',
   RolePermission: 'RolePermission',
   Role: 'Role',
@@ -92,6 +93,22 @@ export const OrganizationScalarFieldEnum = {
 } as const
 
 export type OrganizationScalarFieldEnum = (typeof OrganizationScalarFieldEnum)[keyof typeof OrganizationScalarFieldEnum]
+
+
+export const ProductsScalarFieldEnum = {
+  id: 'id',
+  product_name: 'product_name',
+  sku: 'sku',
+  categury: 'categury',
+  price: 'price',
+  stock: 'stock',
+  branchId: 'branchId',
+  organizationId: 'organizationId',
+  createAt: 'createAt',
+  update: 'update'
+} as const
+
+export type ProductsScalarFieldEnum = (typeof ProductsScalarFieldEnum)[keyof typeof ProductsScalarFieldEnum]
 
 
 export const PermissionScalarFieldEnum = {

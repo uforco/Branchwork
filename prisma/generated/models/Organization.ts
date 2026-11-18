@@ -161,6 +161,7 @@ export type OrganizationWhereInput = {
   user?: Prisma.UserListRelationFilter
   branches?: Prisma.BranchesListRelationFilter
   role?: Prisma.RoleListRelationFilter
+  products?: Prisma.ProductsListRelationFilter
 }
 
 export type OrganizationOrderByWithRelationInput = {
@@ -169,6 +170,7 @@ export type OrganizationOrderByWithRelationInput = {
   user?: Prisma.UserOrderByRelationAggregateInput
   branches?: Prisma.BranchesOrderByRelationAggregateInput
   role?: Prisma.RoleOrderByRelationAggregateInput
+  products?: Prisma.ProductsOrderByRelationAggregateInput
 }
 
 export type OrganizationWhereUniqueInput = Prisma.AtLeast<{
@@ -180,6 +182,7 @@ export type OrganizationWhereUniqueInput = Prisma.AtLeast<{
   user?: Prisma.UserListRelationFilter
   branches?: Prisma.BranchesListRelationFilter
   role?: Prisma.RoleListRelationFilter
+  products?: Prisma.ProductsListRelationFilter
 }, "id" | "id">
 
 export type OrganizationOrderByWithAggregationInput = {
@@ -204,6 +207,7 @@ export type OrganizationCreateInput = {
   user?: Prisma.UserCreateNestedManyWithoutOrganizationInput
   branches?: Prisma.BranchesCreateNestedManyWithoutOrganizationInput
   role?: Prisma.RoleCreateNestedManyWithoutOrganizationInput
+  products?: Prisma.ProductsCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateInput = {
@@ -212,6 +216,7 @@ export type OrganizationUncheckedCreateInput = {
   user?: Prisma.UserUncheckedCreateNestedManyWithoutOrganizationInput
   branches?: Prisma.BranchesUncheckedCreateNestedManyWithoutOrganizationInput
   role?: Prisma.RoleUncheckedCreateNestedManyWithoutOrganizationInput
+  products?: Prisma.ProductsUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUpdateInput = {
@@ -220,6 +225,7 @@ export type OrganizationUpdateInput = {
   user?: Prisma.UserUpdateManyWithoutOrganizationNestedInput
   branches?: Prisma.BranchesUpdateManyWithoutOrganizationNestedInput
   role?: Prisma.RoleUpdateManyWithoutOrganizationNestedInput
+  products?: Prisma.ProductsUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateInput = {
@@ -228,6 +234,7 @@ export type OrganizationUncheckedUpdateInput = {
   user?: Prisma.UserUncheckedUpdateManyWithoutOrganizationNestedInput
   branches?: Prisma.BranchesUncheckedUpdateManyWithoutOrganizationNestedInput
   role?: Prisma.RoleUncheckedUpdateManyWithoutOrganizationNestedInput
+  products?: Prisma.ProductsUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateManyInput = {
@@ -286,6 +293,22 @@ export type OrganizationUpdateOneWithoutBranchesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.OrganizationUpdateToOneWithWhereWithoutBranchesInput, Prisma.OrganizationUpdateWithoutBranchesInput>, Prisma.OrganizationUncheckedUpdateWithoutBranchesInput>
 }
 
+export type OrganizationCreateNestedOneWithoutProductsInput = {
+  create?: Prisma.XOR<Prisma.OrganizationCreateWithoutProductsInput, Prisma.OrganizationUncheckedCreateWithoutProductsInput>
+  connectOrCreate?: Prisma.OrganizationCreateOrConnectWithoutProductsInput
+  connect?: Prisma.OrganizationWhereUniqueInput
+}
+
+export type OrganizationUpdateOneWithoutProductsNestedInput = {
+  create?: Prisma.XOR<Prisma.OrganizationCreateWithoutProductsInput, Prisma.OrganizationUncheckedCreateWithoutProductsInput>
+  connectOrCreate?: Prisma.OrganizationCreateOrConnectWithoutProductsInput
+  upsert?: Prisma.OrganizationUpsertWithoutProductsInput
+  disconnect?: Prisma.OrganizationWhereInput | boolean
+  delete?: Prisma.OrganizationWhereInput | boolean
+  connect?: Prisma.OrganizationWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.OrganizationUpdateToOneWithWhereWithoutProductsInput, Prisma.OrganizationUpdateWithoutProductsInput>, Prisma.OrganizationUncheckedUpdateWithoutProductsInput>
+}
+
 export type OrganizationCreateNestedOneWithoutRoleInput = {
   create?: Prisma.XOR<Prisma.OrganizationCreateWithoutRoleInput, Prisma.OrganizationUncheckedCreateWithoutRoleInput>
   connectOrCreate?: Prisma.OrganizationCreateOrConnectWithoutRoleInput
@@ -321,6 +344,7 @@ export type OrganizationCreateWithoutBranchesInput = {
   organization_name: string
   user?: Prisma.UserCreateNestedManyWithoutOrganizationInput
   role?: Prisma.RoleCreateNestedManyWithoutOrganizationInput
+  products?: Prisma.ProductsCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutBranchesInput = {
@@ -328,6 +352,7 @@ export type OrganizationUncheckedCreateWithoutBranchesInput = {
   organization_name: string
   user?: Prisma.UserUncheckedCreateNestedManyWithoutOrganizationInput
   role?: Prisma.RoleUncheckedCreateNestedManyWithoutOrganizationInput
+  products?: Prisma.ProductsUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutBranchesInput = {
@@ -351,12 +376,62 @@ export type OrganizationUpdateWithoutBranchesInput = {
   organization_name?: Prisma.StringFieldUpdateOperationsInput | string
   user?: Prisma.UserUpdateManyWithoutOrganizationNestedInput
   role?: Prisma.RoleUpdateManyWithoutOrganizationNestedInput
+  products?: Prisma.ProductsUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutBranchesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   organization_name?: Prisma.StringFieldUpdateOperationsInput | string
   user?: Prisma.UserUncheckedUpdateManyWithoutOrganizationNestedInput
+  role?: Prisma.RoleUncheckedUpdateManyWithoutOrganizationNestedInput
+  products?: Prisma.ProductsUncheckedUpdateManyWithoutOrganizationNestedInput
+}
+
+export type OrganizationCreateWithoutProductsInput = {
+  id?: string
+  organization_name: string
+  user?: Prisma.UserCreateNestedManyWithoutOrganizationInput
+  branches?: Prisma.BranchesCreateNestedManyWithoutOrganizationInput
+  role?: Prisma.RoleCreateNestedManyWithoutOrganizationInput
+}
+
+export type OrganizationUncheckedCreateWithoutProductsInput = {
+  id?: string
+  organization_name: string
+  user?: Prisma.UserUncheckedCreateNestedManyWithoutOrganizationInput
+  branches?: Prisma.BranchesUncheckedCreateNestedManyWithoutOrganizationInput
+  role?: Prisma.RoleUncheckedCreateNestedManyWithoutOrganizationInput
+}
+
+export type OrganizationCreateOrConnectWithoutProductsInput = {
+  where: Prisma.OrganizationWhereUniqueInput
+  create: Prisma.XOR<Prisma.OrganizationCreateWithoutProductsInput, Prisma.OrganizationUncheckedCreateWithoutProductsInput>
+}
+
+export type OrganizationUpsertWithoutProductsInput = {
+  update: Prisma.XOR<Prisma.OrganizationUpdateWithoutProductsInput, Prisma.OrganizationUncheckedUpdateWithoutProductsInput>
+  create: Prisma.XOR<Prisma.OrganizationCreateWithoutProductsInput, Prisma.OrganizationUncheckedCreateWithoutProductsInput>
+  where?: Prisma.OrganizationWhereInput
+}
+
+export type OrganizationUpdateToOneWithWhereWithoutProductsInput = {
+  where?: Prisma.OrganizationWhereInput
+  data: Prisma.XOR<Prisma.OrganizationUpdateWithoutProductsInput, Prisma.OrganizationUncheckedUpdateWithoutProductsInput>
+}
+
+export type OrganizationUpdateWithoutProductsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  organization_name?: Prisma.StringFieldUpdateOperationsInput | string
+  user?: Prisma.UserUpdateManyWithoutOrganizationNestedInput
+  branches?: Prisma.BranchesUpdateManyWithoutOrganizationNestedInput
+  role?: Prisma.RoleUpdateManyWithoutOrganizationNestedInput
+}
+
+export type OrganizationUncheckedUpdateWithoutProductsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  organization_name?: Prisma.StringFieldUpdateOperationsInput | string
+  user?: Prisma.UserUncheckedUpdateManyWithoutOrganizationNestedInput
+  branches?: Prisma.BranchesUncheckedUpdateManyWithoutOrganizationNestedInput
   role?: Prisma.RoleUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
@@ -365,6 +440,7 @@ export type OrganizationCreateWithoutRoleInput = {
   organization_name: string
   user?: Prisma.UserCreateNestedManyWithoutOrganizationInput
   branches?: Prisma.BranchesCreateNestedManyWithoutOrganizationInput
+  products?: Prisma.ProductsCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutRoleInput = {
@@ -372,6 +448,7 @@ export type OrganizationUncheckedCreateWithoutRoleInput = {
   organization_name: string
   user?: Prisma.UserUncheckedCreateNestedManyWithoutOrganizationInput
   branches?: Prisma.BranchesUncheckedCreateNestedManyWithoutOrganizationInput
+  products?: Prisma.ProductsUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutRoleInput = {
@@ -395,6 +472,7 @@ export type OrganizationUpdateWithoutRoleInput = {
   organization_name?: Prisma.StringFieldUpdateOperationsInput | string
   user?: Prisma.UserUpdateManyWithoutOrganizationNestedInput
   branches?: Prisma.BranchesUpdateManyWithoutOrganizationNestedInput
+  products?: Prisma.ProductsUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutRoleInput = {
@@ -402,6 +480,7 @@ export type OrganizationUncheckedUpdateWithoutRoleInput = {
   organization_name?: Prisma.StringFieldUpdateOperationsInput | string
   user?: Prisma.UserUncheckedUpdateManyWithoutOrganizationNestedInput
   branches?: Prisma.BranchesUncheckedUpdateManyWithoutOrganizationNestedInput
+  products?: Prisma.ProductsUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutUserInput = {
@@ -409,6 +488,7 @@ export type OrganizationCreateWithoutUserInput = {
   organization_name: string
   branches?: Prisma.BranchesCreateNestedManyWithoutOrganizationInput
   role?: Prisma.RoleCreateNestedManyWithoutOrganizationInput
+  products?: Prisma.ProductsCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutUserInput = {
@@ -416,6 +496,7 @@ export type OrganizationUncheckedCreateWithoutUserInput = {
   organization_name: string
   branches?: Prisma.BranchesUncheckedCreateNestedManyWithoutOrganizationInput
   role?: Prisma.RoleUncheckedCreateNestedManyWithoutOrganizationInput
+  products?: Prisma.ProductsUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutUserInput = {
@@ -439,6 +520,7 @@ export type OrganizationUpdateWithoutUserInput = {
   organization_name?: Prisma.StringFieldUpdateOperationsInput | string
   branches?: Prisma.BranchesUpdateManyWithoutOrganizationNestedInput
   role?: Prisma.RoleUpdateManyWithoutOrganizationNestedInput
+  products?: Prisma.ProductsUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutUserInput = {
@@ -446,6 +528,7 @@ export type OrganizationUncheckedUpdateWithoutUserInput = {
   organization_name?: Prisma.StringFieldUpdateOperationsInput | string
   branches?: Prisma.BranchesUncheckedUpdateManyWithoutOrganizationNestedInput
   role?: Prisma.RoleUncheckedUpdateManyWithoutOrganizationNestedInput
+  products?: Prisma.ProductsUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 
@@ -457,12 +540,14 @@ export type OrganizationCountOutputType = {
   user: number
   branches: number
   role: number
+  products: number
 }
 
 export type OrganizationCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | OrganizationCountOutputTypeCountUserArgs
   branches?: boolean | OrganizationCountOutputTypeCountBranchesArgs
   role?: boolean | OrganizationCountOutputTypeCountRoleArgs
+  products?: boolean | OrganizationCountOutputTypeCountProductsArgs
 }
 
 /**
@@ -496,6 +581,13 @@ export type OrganizationCountOutputTypeCountRoleArgs<ExtArgs extends runtime.Typ
   where?: Prisma.RoleWhereInput
 }
 
+/**
+ * OrganizationCountOutputType without action
+ */
+export type OrganizationCountOutputTypeCountProductsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ProductsWhereInput
+}
+
 
 export type OrganizationSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -503,6 +595,7 @@ export type OrganizationSelect<ExtArgs extends runtime.Types.Extensions.Internal
   user?: boolean | Prisma.Organization$userArgs<ExtArgs>
   branches?: boolean | Prisma.Organization$branchesArgs<ExtArgs>
   role?: boolean | Prisma.Organization$roleArgs<ExtArgs>
+  products?: boolean | Prisma.Organization$productsArgs<ExtArgs>
   _count?: boolean | Prisma.OrganizationCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["organization"]>
 
@@ -526,6 +619,7 @@ export type OrganizationInclude<ExtArgs extends runtime.Types.Extensions.Interna
   user?: boolean | Prisma.Organization$userArgs<ExtArgs>
   branches?: boolean | Prisma.Organization$branchesArgs<ExtArgs>
   role?: boolean | Prisma.Organization$roleArgs<ExtArgs>
+  products?: boolean | Prisma.Organization$productsArgs<ExtArgs>
   _count?: boolean | Prisma.OrganizationCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type OrganizationIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -537,6 +631,7 @@ export type $OrganizationPayload<ExtArgs extends runtime.Types.Extensions.Intern
     user: Prisma.$UserPayload<ExtArgs>[]
     branches: Prisma.$BranchesPayload<ExtArgs>[]
     role: Prisma.$RolePayload<ExtArgs>[]
+    products: Prisma.$ProductsPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -938,6 +1033,7 @@ export interface Prisma__OrganizationClient<T, Null = never, ExtArgs extends run
   user<T extends Prisma.Organization$userArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Organization$userArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   branches<T extends Prisma.Organization$branchesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Organization$branchesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BranchesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   role<T extends Prisma.Organization$roleArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Organization$roleArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RolePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  products<T extends Prisma.Organization$productsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Organization$productsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProductsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1431,6 +1527,30 @@ export type Organization$roleArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   distinct?: Prisma.RoleScalarFieldEnum | Prisma.RoleScalarFieldEnum[]
+}
+
+/**
+ * Organization.products
+ */
+export type Organization$productsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Products
+   */
+  select?: Prisma.ProductsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Products
+   */
+  omit?: Prisma.ProductsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProductsInclude<ExtArgs> | null
+  where?: Prisma.ProductsWhereInput
+  orderBy?: Prisma.ProductsOrderByWithRelationInput | Prisma.ProductsOrderByWithRelationInput[]
+  cursor?: Prisma.ProductsWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ProductsScalarFieldEnum | Prisma.ProductsScalarFieldEnum[]
 }
 
 /**
