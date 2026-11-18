@@ -1,4 +1,5 @@
 import {
+  ConflictException,
   Injectable,
   InternalServerErrorException,
   Logger,
@@ -60,16 +61,26 @@ export class AccessRoleService {
   /* Create Role Function End Area */
 
   async getAllRolesWithPermissions(user: AuthUser) {
+    const Query = {};
+    if ((user.userRole.role.name as RootRole) !== RootRole.OWNER) {
+      Query['rolePermission'] = {
+        some: {
+          permission: {
+            key: {
+              notIn: [Permission.OWNER_ALL],
+            },
+          },
+        },
+      };
+      Query['user'] = {
+        id: user.id,
+      };
+    }
+    Query['organizationId'] = user.organizationId;
+
     const data = this.db.role.findMany({
       where: {
-        organizationId: user.organizationId,
-        // rolePermission: {
-        //   permission: {
-        //     key: {
-        //       notIn: [Permission.OWNER_ALL],
-        //     },
-        //   },
-        // },
+        ...Query,
       },
       select: {
         id: true,
@@ -114,7 +125,14 @@ export class AccessRoleService {
     return data;
   }
 
-  async update(id: string, updateAccessRoleDto: UpdateAccessRoleDto) {
+  async update(
+    id: string,
+    updateAccessRoleDto: UpdateAccessRoleDto,
+    user: AuthUser,
+  ) {
+    if (id === user.id)
+      throw new ConflictException('You can not change your own role');
+
     const { permission, ...rest } = updateAccessRoleDto;
     try {
       await this.db.$transaction(async (tx) => {
@@ -149,7 +167,44 @@ export class AccessRoleService {
     }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} accessRole`;
+  async remove(id: string, user: AuthUser) {
+    const Query = {};
+    if ((user.userRole.role.name as RootRole) !== RootRole.OWNER) {
+      Query['user'] = {
+        id: user.id,
+      };
+    }
+    Query['id'] = id;
+    Query['organizationId'] = user.organizationId;
+
+    const isExist = await this.db.role.findFirst({
+      where: Query,
+    });
+    if (!isExist) throw new ConflictException('Role not found');
+
+    try {
+      await this.db.userRole.deleteMany({
+        where: {
+          roleId: id,
+        },
+      });
+      await this.db.role.delete({
+        where: {
+          id,
+        },
+      });
+      await this.db.rolePermission.deleteMany({
+        where: {
+          roleId: id,
+        },
+      });
+      return {
+        message: `deleted success - This action removes a #${id} accessRole`,
+        data: null,
+      };
+    } catch (err) {
+      this.logger.debug('error caught in delete access role service: ', err);
+      throw new InternalServerErrorException();
+    }
   }
 }

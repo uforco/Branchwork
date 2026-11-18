@@ -46,21 +46,21 @@ export class AccessRoleController {
     return this.accessRoleService.getAllRolesWithPermissions(user);
   }
 
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.accessRoleService.findOne(+id);
-  // }
-
+  // Update role permissions
+  @Permissions(Permission.ROLE_UPDATE)
   @Patch(':id')
   update(
     @Param('id') id: string,
     @Body() updateAccessRoleDto: UpdateAccessRoleDto,
+    @User() user: AuthUser,
   ) {
-    return this.accessRoleService.update(id, updateAccessRoleDto);
+    return this.accessRoleService.update(id, updateAccessRoleDto, user);
   }
 
+  // Delete role
+  @Permissions(Permission.ROLE_DELETE)
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.accessRoleService.remove(+id);
+  remove(@Param('id') id: string, @User() user: AuthUser) {
+    return this.accessRoleService.remove(id, user);
   }
 }
