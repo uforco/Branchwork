@@ -11,6 +11,7 @@ import { BranchModule } from './branch/branch.module';
 import { AccessRoleModule } from './access-role/access-role.module';
 import { StaffModule } from './staff/staff.module';
 import { RbacPermissionCacheModule } from './lib/rbac-permission-cache/rbac-permission-cache.module';
+import { ProductsModule } from './products/products.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { RbacPermissionCacheModule } from './lib/rbac-permission-cache/rbac-perm
     BranchModule,
     AccessRoleModule,
     StaffModule,
+    ProductsModule,
   ],
   controllers: [AppController],
   providers: [
