@@ -13,6 +13,7 @@ import { DbPrismaService } from '../../config/db-prisma/db-prisma.service';
 import { PERMISSION_KEY } from './roles.decorator';
 import { jwtPayloadInterface } from '../auth.service';
 import { Permission } from './role.enum';
+import { RbacPermissionCacheService } from '../../lib/rbac-permission-cache/rbac-permission-cache.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -22,6 +23,7 @@ export class AuthGuard implements CanActivate {
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
     private readonly db: DbPrismaService,
+    private readonly rbacPermissionCache: RbacPermissionCacheService,
   ) {}
 
   async canActivate(context: ExecutionContext) {
@@ -32,8 +34,6 @@ export class AuthGuard implements CanActivate {
       PERMISSION_KEY,
       [context.getHandler(), context.getClass()],
     );
-
-    console.log('AuthGurad ==== ', requiredRoles);
 
     // if no roles are required, allow access Public Access
     if (!requiredRoles) return true;
@@ -49,8 +49,13 @@ export class AuthGuard implements CanActivate {
     // push user data to the request object
     await this.userDataPushInterceptor(payload.sub, request);
 
-    return true;
-    // return requiredRoles.some((role) => payload.role?.includes(role));
+    //get User API Permisstion
+    const userPermission = this.rbacPermissionCache.getData(payload.sub);
+
+    // console.log('AuthGurad ==== ', payload.sub, userPermission);
+
+    if (!userPermission) return false;
+    return requiredRoles.some((role) => !!userPermission[role]);
   }
 
   // extract bearer token from the authorization header

@@ -14,7 +14,6 @@ import { RbacPermissionCacheService } from '../lib/rbac-permission-cache/rbac-pe
 
 export interface jwtPayloadInterface {
   sub: string;
-  role: string;
   organizationId?: string;
   branch_id?: string;
 }
@@ -40,6 +39,7 @@ export class AuthService {
         },
         include: {
           organization: true,
+          branch: true,
           userRole: {
             select: {
               role: {
@@ -181,9 +181,7 @@ export class AuthService {
     });
     if (!isPasswordMatch) throw new NotFoundException('invalid cadential');
 
-    console.log(isEmailExist);
-
-    const { id: sub, organization, userRole, branch_id } = rest;
+    const { id: sub, organization, name, userRole, branch_id } = rest;
 
     // cache the permission for the user - this is Not Right Way - just Test
     this.rbacPermissionCache.setData(
@@ -192,8 +190,7 @@ export class AuthService {
     );
 
     // prepare the payload for the jwt token
-    const payload: Record<string, string> = { sub };
-    payload['role'] = (userRole as UserRoleSelected).role.name;
+    const payload = { sub };
     if (organization && organization.id)
       payload['organizationId'] = organization.id;
     if (branch_id) payload['branch_id'] = branch_id;
@@ -201,8 +198,15 @@ export class AuthService {
     // generate the jwt token and return controller
     try {
       return {
-        access_token: '', //`Bearer ${await this.createJwtToken(payload)}`,
-        data: this.rbacPermissionCache.getData(sub),
+        access_token: `Bearer ${await this.createJwtToken(payload)}`,
+        data: {
+          id: sub,
+          name,
+          email,
+          organization,
+          role: (userRole as UserRoleSelected).role.name,
+          branch: rest.branch,
+        },
       };
     } catch (error) {
       this.logger.debug(error);

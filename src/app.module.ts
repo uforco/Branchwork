@@ -10,6 +10,7 @@ import { AuthGuard } from './auth/guard/auth.guard';
 import { BranchModule } from './branch/branch.module';
 import { AccessRoleModule } from './access-role/access-role.module';
 import { StaffModule } from './staff/staff.module';
+import { RbacPermissionCacheModule } from './lib/rbac-permission-cache/rbac-permission-cache.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { StaffModule } from './staff/staff.module';
     }),
     DbPrismaModule,
     AuthModule,
+    RbacPermissionCacheModule,
     BranchModule,
     AccessRoleModule,
     StaffModule,
