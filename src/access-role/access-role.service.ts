@@ -143,7 +143,6 @@ export class AccessRoleService {
           },
         });
         if (permission && permission.length > 0) {
-          console.log(permission);
           await tx.rolePermission.deleteMany({
             where: {
               roleId: role.id,

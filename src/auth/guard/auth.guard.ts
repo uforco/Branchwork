@@ -52,7 +52,7 @@ export class AuthGuard implements CanActivate {
     //get User API Permisstion
     const userPermission = this.rbacPermissionCache.getData(payload.sub);
 
-    console.log('AuthGurad ==== ', payload.sub, userPermission);
+    console.log('Permission APIs ==== ', userPermission);
 
     if (!userPermission) return false;
     return [...requiredRoles, Permission.OWNER_ALL].some(

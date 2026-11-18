@@ -46,7 +46,6 @@ export class ProductsService {
 
   // Find All Procust - main api Fuction
   async findAll(query: FindProductQueryDto, user: AuthUser) {
-    console.log(user);
     const filter = this.filterProductQuery(query);
     try {
       const Query = {};

@@ -42,7 +42,6 @@ export class BranchController {
   @Permissions(Permission.BRANCH_DELETE)
   @Delete('delete/:id')
   remove(@Param('id') id: string) {
-    console.log(id);
     return this.branchService.remove(id);
   }
 }
