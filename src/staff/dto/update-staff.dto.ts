@@ -33,4 +33,14 @@ export class UpdateStaffDto extends PartialType(CreateStaffDto) {
   })
   @IsString({ message: 'branch_uuid must be a string' })
   branch_id?: string;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+    example: 'roleId_uuid',
+    description: 'The role of the role_uuid',
+  })
+  @IsString({ message: 'roleId_uuid must be a string' })
+  @IsOptional({ message: 'roleId_uuid cannot be empty' })
+  roleId?: string;
 }

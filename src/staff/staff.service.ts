@@ -9,14 +9,20 @@ import { CreateStaffDto } from './dto/create-staff.dto';
 import { UpdateStaffDto } from './dto/update-staff.dto';
 import { DbPrismaService } from '../config/db-prisma/db-prisma.service';
 import { AuthUser } from '../auth/guard/user.decorator';
+import { AccessRoleService } from '../access-role/access-role.service';
+import { Permission, RootRole } from '../auth/guard/role.enum';
 
 @Injectable()
 export class StaffService {
   private readonly logger = new Logger(StaffService.name);
-  constructor(private readonly db: DbPrismaService) {}
+  constructor(
+    private readonly db: DbPrismaService,
+    private readonly accessRoleService: AccessRoleService,
+  ) {}
 
   // create organization with staff defualt role
   async create(createStaffDto: CreateStaffDto, user: AuthUser) {
+    const { roleId, ...other } = createStaffDto;
     try {
       const isExist = await this.db.user.findUnique({
         where: {
@@ -24,11 +30,27 @@ export class StaffService {
         },
       });
       if (isExist) throw new ConflictException('Email already exist');
-      const newStaff = await this.db.user.create({
-        data: {
-          ...createStaffDto,
-          organizationId: user.organizationId,
-        },
+      const newStaff = await this.db.$transaction(async (tx) => {
+        const createStaff = await tx.user.create({
+          data: {
+            ...other,
+            organizationId: user.organizationId,
+          },
+        });
+        const createUserRole = await tx.userRole.create({
+          data: {
+            userId: createStaff.id,
+            roleId: roleId,
+          },
+          include: {
+            role: {
+              select: {
+                name: true,
+              },
+            },
+          },
+        });
+        return { ...createStaff, userRole: createUserRole };
       });
       return {
         success: true,
@@ -48,30 +70,47 @@ export class StaffService {
       );
     }
   }
+  async seleteStaffRole(user: AuthUser) {
+    return await this.accessRoleService.getAllRolesWithPermissions(user);
+  }
+  /* create staff 2 fuction end area */
 
+  // get all staff with filter option
   findAll(user: AuthUser) {
-    const Query = {};
-    // if (user.role === Role.Owner) {
-    //   Query['id'] = { not: user.id };
-    //   Query['organizationId'] = user.organizationId;
-    // }
-    // if (user.role === Role.Branch_manager) {
-    //   Query['branch_id'] = user.branch_id;
-    //   Query['organizationId'] = user.organizationId;
-    // }
+    try {
+      const Query = {};
+      if ((user.userRole.role.name as RootRole) !== RootRole.OWNER) {
+        Query['id'] = { not: user.id };
+        Query['branch_id'] = user.branch_id;
+      }
+      Query['organizationId'] = user.organizationId;
 
-    const getAllStaff = this.db.user.findMany({
-      where: Query,
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        role: true,
-        branch: true,
-      },
-    });
-
-    return getAllStaff;
+      const getAllStaff = this.db.user.findMany({
+        where: Query,
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          branch: true,
+          userRole: {
+            select: {
+              role: {
+                select: {
+                  name: true,
+                  description: true,
+                },
+              },
+            },
+          },
+        },
+      });
+      return getAllStaff;
+    } catch (err) {
+      this.logger.debug('Staff API - ', err);
+      throw new InternalServerErrorException(
+        ' Something went wrong!!! Please contact support team ',
+      );
+    }
   }
 
   async findOne(id: string) {
@@ -82,7 +121,16 @@ export class StaffService {
           id: true,
           name: true,
           email: true,
-          role: true,
+          userRole: {
+            select: {
+              role: {
+                select: {
+                  name: true,
+                  description: true,
+                },
+              },
+            },
+          },
         },
       });
     } catch (error) {
@@ -94,25 +142,28 @@ export class StaffService {
   }
 
   // this func for update staff by id
-  update(id: string, updateStaffDto: UpdateStaffDto, user: AuthUser) {
+  async update(id: string, updateStaffDto: UpdateStaffDto, user: AuthUser) {
     if (user.id === id)
       throw new ConflictException('You can not update your own role');
+    const { roleId, ...rest } = updateStaffDto;
 
     try {
-      // const update = await this.db.user.update({
-      //   where: {
-      //     id,
-      //     role: {
-      //       not: Role.Owner,
-      //     },
-      //   },
-      //   data: { ...updateStaffDto },
-      // });
-      // return {
-      //   success: true,
-      //   message: 'Staff updated successfully',
-      //   data: update,
-      // };
+      const update = await this.db.user.update({
+        where: {
+          id,
+          userRole: {
+            role: {
+              rolePermission: {},
+            },
+          },
+        },
+        data: { ...updateStaffDto },
+      });
+      return {
+        success: true,
+        message: 'Staff updated successfully',
+        data: update,
+      };
     } catch (error) {
       if (error instanceof Error && 'code' in error && error.code === 'P2025')
         throw new NotFoundException('Staff not found');

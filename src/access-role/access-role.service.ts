@@ -188,16 +188,17 @@ export class AccessRoleService {
           roleId: id,
         },
       });
-      await this.db.role.delete({
-        where: {
-          id,
-        },
-      });
       await this.db.rolePermission.deleteMany({
         where: {
           roleId: id,
         },
       });
+      await this.db.role.delete({
+        where: {
+          id,
+        },
+      });
+
       return {
         message: `deleted success - This action removes a #${id} accessRole`,
         data: null,

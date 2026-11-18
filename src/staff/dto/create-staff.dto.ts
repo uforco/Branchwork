@@ -22,4 +22,14 @@ export class CreateStaffDto extends LoginAuthDto {
   @IsString({ message: 'branch_uuid must be a string' })
   @IsNotEmpty({ message: 'branch_uuid cannot be empty' })
   branch_id!: string;
+
+  @ApiProperty({
+    required: true,
+    type: String,
+    example: 'roleId_uuid',
+    description: 'The role of the role_uuid',
+  })
+  @IsString({ message: 'roleId_uuid must be a string' })
+  @IsNotEmpty({ message: 'roleId_uuid cannot be empty' })
+  roleId!: string;
 }
