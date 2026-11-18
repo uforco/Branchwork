@@ -24,17 +24,19 @@ export class StaffController {
   create(@Body() createStaffDto: CreateStaffDto, @User() user: AuthUser) {
     return this.staffService.create(createStaffDto, user);
   }
-
+  @Permissions(Permission.ROLE_READ)
   @Get('selete-new-staff-role')
   seleteStaffRole(@User() user: AuthUser) {
     return this.staffService.seleteStaffRole(user);
   }
 
+  @Permissions(Permission.USER_READ)
   @Get()
   findAll(@User() user: AuthUser) {
     return this.staffService.findAll(user);
   }
 
+  @Permissions(Permission.USER_UPDATE)
   @Patch(':id')
   update(
     @Param('id') id: string,
@@ -44,6 +46,7 @@ export class StaffController {
     return this.staffService.update(id, updateStaffDto, user);
   }
 
+  @Permissions(Permission.USER_DELETE)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.staffService.remove(id);

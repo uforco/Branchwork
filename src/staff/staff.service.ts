@@ -148,21 +148,48 @@ export class StaffService {
     const { roleId, ...rest } = updateStaffDto;
 
     try {
-      const update = await this.db.user.update({
-        where: {
-          id,
-          userRole: {
-            role: {
-              rolePermission: {},
+      const updateStaffProfile = await this.db.$transaction(async (tx) => {
+        const updateUser = await tx.user.update({
+          where: {
+            id,
+            userRole: {
+              role: {
+                rolePermission: {
+                  some: {
+                    permission: {
+                      key: {
+                        notIn: [Permission.OWNER_ALL],
+                      },
+                    },
+                  },
+                },
+              },
             },
           },
-        },
-        data: { ...updateStaffDto },
+          data: { ...rest },
+        });
+        // update userRole
+        const userRole = await this.db.userRole.update({
+          where: {
+            userId: updateUser.id,
+          },
+          data: {
+            roleId,
+          },
+          select: {
+            role: {
+              select: {
+                name: true,
+              },
+            },
+          },
+        });
+        return { ...updateUser, userRole };
       });
       return {
         success: true,
         message: 'Staff updated successfully',
-        data: update,
+        data: updateStaffProfile,
       };
     } catch (error) {
       if (error instanceof Error && 'code' in error && error.code === 'P2025')
@@ -180,6 +207,7 @@ export class StaffService {
     if (!isExist) throw new NotFoundException('Staff not found');
     try {
       await this.db.user.delete({ where: { id } });
+      await this.db.userRole.deleteMany({ where: { userId: id } });
       return { success: true, message: 'Staff removed successfully' };
     } catch (error) {
       this.logger.debug('Staff API - ', error);
