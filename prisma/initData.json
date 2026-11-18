@@ -16,9 +16,24 @@
       "key": "permission.read",
       "description": "View available system permissions"
     },
-    { "key": "post.read", "description": "View posts and post details" },
-    { "key": "post.create", "description": "Create new posts" },
-    { "key": "post.update", "description": "Update existing posts" },
-    { "key": "post.delete", "description": "Delete posts from the system" }
+
+    { "key": "branch.read", "description": "View branches and branch details" },
+    { "key": "branch.create", "description": "Create new branches" },
+    { "key": "branch.update", "description": "Update existing branches" },
+    {
+      "key": "branch.delete",
+      "description": "Delete branches from the system"
+    },
+
+    {
+      "key": "product.read",
+      "description": "View products and product details"
+    },
+    { "key": "product.create", "description": "Create new products" },
+    { "key": "product.update", "description": "Update existing products" },
+    {
+      "key": "product.delete",
+      "description": "Delete products from the system"
+    }
   ]
 }

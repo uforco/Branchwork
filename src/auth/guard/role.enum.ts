@@ -13,10 +13,15 @@ export enum Permission {
 
   PERMISSION_READ = 'permission.read',
 
-  POST_READ = 'post.read',
-  POST_CREATE = 'post.create',
-  POST_UPDATE = 'post.update',
-  POST_DELETE = 'post.delete',
+  BRANCH_READ = 'branch.read',
+  BRANCH_CREATE = 'branch.create',
+  BRANCH_UPDATE = 'branch.update',
+  BRANCH_DELETE = 'branch.delete',
+
+  PRODUCT_READ = 'product.read',
+  PRODUCT_CREATE = 'product.create',
+  PRODUCT_UPDATE = 'product.update',
+  PRODUCT_DELETE = 'product.delete',
 }
 
 // addmission user all api and post read and write

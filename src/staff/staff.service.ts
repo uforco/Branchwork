@@ -207,7 +207,7 @@ export class StaffService {
     if (!isExist) throw new NotFoundException('Staff not found');
     try {
       await this.db.user.delete({ where: { id } });
-      await this.db.userRole.deleteMany({ where: { userId: id } });
+      await this.db.userRole.delete({ where: { userId: id } });
       return { success: true, message: 'Staff removed successfully' };
     } catch (error) {
       this.logger.debug('Staff API - ', error);
