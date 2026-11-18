@@ -10,12 +10,17 @@ import { DbPrismaService } from '../config/db-prisma/db-prisma.service';
 import { LoginAuthDto } from './dto/login-auth.dto';
 import { JwtService } from '@nestjs/jwt';
 import { EncryptedPasswordService } from '../lib/encrypted-password/encrypted-password.service';
+import { RbacPermissionCacheService } from '../lib/rbac-permission-cache/rbac-permission-cache.service';
 
 export interface jwtPayloadInterface {
   sub: string;
+  role: string;
   organizationId?: string;
   branch_id?: string;
 }
+export type UserRoleSelected = {
+  role: { name: string; rolePermission: { permission: { key: string } }[] };
+};
 
 @Injectable()
 export class AuthService {
@@ -24,6 +29,7 @@ export class AuthService {
     private readonly db: DbPrismaService,
     private readonly jwtService: JwtService,
     private readonly encryptedPassword: EncryptedPasswordService,
+    private readonly rbacPermissionCache: RbacPermissionCacheService,
   ) {}
 
   private async findUserByEmail(email: string) {
@@ -38,6 +44,7 @@ export class AuthService {
             select: {
               role: {
                 select: {
+                  name: true,
                   rolePermission: {
                     select: {
                       permission: {
@@ -176,9 +183,17 @@ export class AuthService {
 
     console.log(isEmailExist);
 
+    const { id: sub, organization, userRole, branch_id } = rest;
+
+    // cache the permission for the user - this is Not Right Way - just Test
+    this.rbacPermissionCache.setData(
+      sub,
+      (userRole as UserRoleSelected).role.rolePermission,
+    );
+
     // prepare the payload for the jwt token
-    const { id: sub, organization, branch_id } = rest;
-    const payload = { sub };
+    const payload: Record<string, string> = { sub };
+    payload['role'] = (userRole as UserRoleSelected).role.name;
     if (organization && organization.id)
       payload['organizationId'] = organization.id;
     if (branch_id) payload['branch_id'] = branch_id;
@@ -187,7 +202,7 @@ export class AuthService {
     try {
       return {
         access_token: '', //`Bearer ${await this.createJwtToken(payload)}`,
-        data: isEmailExist,
+        data: this.rbacPermissionCache.getData(sub),
       };
     } catch (error) {
       this.logger.debug(error);
