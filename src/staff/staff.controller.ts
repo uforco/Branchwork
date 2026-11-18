@@ -24,7 +24,7 @@ export class StaffController {
   create(@Body() createStaffDto: CreateStaffDto, @User() user: AuthUser) {
     return this.staffService.create(createStaffDto, user);
   }
-  @Permissions(Permission.ROLE_READ)
+  @Permissions(Permission.USER_CREATE)
   @Get('selete-new-staff-role')
   seleteStaffRole(@User() user: AuthUser) {
     return this.staffService.seleteStaffRole(user);

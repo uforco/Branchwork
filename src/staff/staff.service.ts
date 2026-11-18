@@ -11,6 +11,7 @@ import { DbPrismaService } from '../config/db-prisma/db-prisma.service';
 import { AuthUser } from '../auth/guard/user.decorator';
 import { AccessRoleService } from '../access-role/access-role.service';
 import { Permission, RootRole } from '../auth/guard/role.enum';
+import { EncryptedPasswordService } from '../lib/encrypted-password/encrypted-password.service';
 
 @Injectable()
 export class StaffService {
@@ -18,11 +19,15 @@ export class StaffService {
   constructor(
     private readonly db: DbPrismaService,
     private readonly accessRoleService: AccessRoleService,
+    private readonly encryptedPasswordService: EncryptedPasswordService,
   ) {}
 
   // create organization with staff defualt role
   async create(createStaffDto: CreateStaffDto, user: AuthUser) {
     const { roleId, ...other } = createStaffDto;
+    other.password = await this.encryptedPasswordService.getHash(
+      other.password,
+    );
     try {
       const isExist = await this.db.user.findUnique({
         where: {
@@ -80,7 +85,7 @@ export class StaffService {
     try {
       const Query = {};
       if ((user.userRole.role.name as RootRole) !== RootRole.OWNER) {
-        Query['id'] = { not: user.id };
+        // Query['id'] = { not: user.id }; // without login user data
         Query['branch_id'] = user.branch_id;
       }
       Query['organizationId'] = user.organizationId;
@@ -96,8 +101,19 @@ export class StaffService {
             select: {
               role: {
                 select: {
+                  id: true,
                   name: true,
                   description: true,
+                  rolePermission: {
+                    select: {
+                      permission: {
+                        select: {
+                          id: true,
+                          description: true,
+                        },
+                      },
+                    },
+                  },
                 },
               },
             },
@@ -146,7 +162,11 @@ export class StaffService {
     if (user.id === id)
       throw new ConflictException('You can not update your own role');
     const { roleId, ...rest } = updateStaffDto;
-
+    if (rest.password) {
+      rest.password = await this.encryptedPasswordService.getHash(
+        rest.password,
+      );
+    }
     try {
       const updateStaffProfile = await this.db.$transaction(async (tx) => {
         const updateUser = await tx.user.update({
@@ -206,8 +226,8 @@ export class StaffService {
     const isExist = await this.findOne(id);
     if (!isExist) throw new NotFoundException('Staff not found');
     try {
-      await this.db.user.delete({ where: { id } });
       await this.db.userRole.delete({ where: { userId: id } });
+      await this.db.user.delete({ where: { id } });
       return { success: true, message: 'Staff removed successfully' };
     } catch (error) {
       this.logger.debug('Staff API - ', error);
