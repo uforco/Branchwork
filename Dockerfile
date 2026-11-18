@@ -1,7 +1,6 @@
 # ── Stage 1: Build ──────────────────────────────────────────────────────────
 FROM node:22 AS builder
 
-RUN npm install -g pnpm
 
 WORKDIR /app
 
@@ -18,9 +17,9 @@ COPY prisma7.config.ts ./
 
 COPY . .
 
-RUN pnpm prisma:generate
+RUN npm run prisma:generate
 
-RUN pnpm run build
+RUN npm run build
 
 # ── Stage 2: Production ──────────────────────────────────────────────────────
 FROM node:22-alpine3.21 AS production
@@ -36,8 +35,5 @@ COPY --from=builder /app/prisma7.config.ts ./prisma7.config.ts
 
 ENV NODE_ENV=production
 EXPOSE 3000
-
-RUN pnpm prisma:deploy
-RUN pnpm prisma:seed
 
 CMD ["npm", "run", "start:prod"]
