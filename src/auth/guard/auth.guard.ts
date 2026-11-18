@@ -33,6 +33,8 @@ export class AuthGuard implements CanActivate {
       [context.getHandler(), context.getClass()],
     );
 
+    console.log('AuthGurad ==== ', requiredRoles);
+
     // if no roles are required, allow access Public Access
     if (!requiredRoles) return true;
 

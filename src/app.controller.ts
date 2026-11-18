@@ -1,5 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
+import { Permissions } from './auth/guard/roles.decorator';
+import { Permission } from './auth/guard/role.enum';
 
 @Controller()
 export class AppController {
@@ -10,6 +12,7 @@ export class AppController {
     return this.appService.getHello();
   }
 
+  @Permissions(Permission.USER_READ)
   @Get('users')
   getAllUsers() {
     return this.appService.findAll();
