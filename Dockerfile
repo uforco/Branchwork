@@ -5,6 +5,7 @@ WORKDIR /app
 
 # Install deps
 RUN npm install -g pnpm@latest
+RUN corepack enable
 
 # Copy package files
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
@@ -37,4 +38,4 @@ COPY --from=builder /app/prisma7.config.ts ./prisma7.config.ts
 ENV NODE_ENV=production
 EXPOSE 3000
 
-CMD ["pnpm", "start:prod"]
+CMD ["npm", "run", "start:prod"]

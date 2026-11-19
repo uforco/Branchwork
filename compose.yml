@@ -1,7 +1,30 @@
 services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: sharif780/branchwork-api:latest
+    container_name: branchwork-api
+    profiles:
+      - dev
+      - app # first remove depends_on then use this profile
+      - prod
+    ports:
+      - ${PORT}:3000
+    environment:
+      DATABASE_URL: postgresql://adminBranchwork:adminBranchwork@db:5432/branchwork?schema=public
+      JWT_SECRET: 34567eg47468he4567v43574v56
+      PORT: 3000
+    depends_on:
+      - db
+
   db:
     image: postgres:17-alpine3.23
     container_name: branchwork_db
+    profiles:
+      - dev
+      - db
+      - prod
     ports:
       - ${DB_PORT}:5432
     environment:

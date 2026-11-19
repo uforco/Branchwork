@@ -21,78 +21,138 @@
   <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
+## 1. Environment Configuration
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Project setup
+Copy the example environment file:
 
 ```bash
-$ pnpm install
+cp .env.example .env
 ```
 
-## Compile and run the project
+Configure your environment variables in `.env`, especially the database connection URL.
+
+## 2. Database Connection
+
+Ensure your PostgreSQL database is running and the application can successfully connect to it.
+
+## 3. Install Dependencies
+
+Using pnpm:
 
 ```bash
-# development
-$ pnpm run start
-
-# watch mode
-$ pnpm run start:dev
-
-# production mode
-$ pnpm run start:prod
+pnpm install
 ```
 
-## Run tests
+Or using npm:
 
 ```bash
-# unit tests
-$ pnpm run test
-
-# e2e tests
-$ pnpm run test:e2e
-
-# test coverage
-$ pnpm run test:cov
+npm install
 ```
 
-## Deployment
+## 4. Prisma Setup
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+Generate the Prisma Client:
 
 ```bash
-$ pnpm install -g @nestjs/mau
-$ mau deploy
+pnpm exec prisma generate
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+Or using npm:
 
-## Resources
+```bash
+npx prisma generate
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+Apply database migrations:
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+```bash
+npx prisma migrate deploy
+```
 
-## Support
+Run database seed:
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+```bash
+npx prisma db seed
+```
 
-## Stay in touch
+## 5. Start Development Server
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+Using pnpm:
 
-## License
+```bash
+pnpm start:dev
+```
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+The application will start in development mode.
+
+## Run Database with Docker
+
+To start the development database using Docker Compose:
+
+```bash
+docker compose --profile dev up -d
+```
+
+This command starts the services configured under the `dev` profile in the background.
+
+To check running containers:
+
+```bash
+docker compose ps
+```
+
+To stop the services:
+
+```bash
+docker compose --profile dev down
+```
+
+---
+
+## Quick Setup Summary
+
+```bash
+# 1. Environment configuration
+cp .env.example .env
+
+# 2. Install dependencies
+pnpm install
+
+# 3. Start development database
+docker compose --profile db up -d
+
+# 4. Generate Prisma Client
+pnpm exec prisma generate
+
+# 5. Apply migrations
+npx prisma migrate deploy
+
+# 6. Seed database
+npx prisma db seed
+
+# 7. Start application
+pnpm start:dev
+```
+
+# More Details Documentation
+
+- [How to Run Application](./HOWTORUN.md)
+- [API Documentation](./API_Document.md)
+
+---
+
+## Contact & Author
+
+**Md Sharif**  
+Full Stack Software Engineer (Backend Focused)  
+Dhaka, Bangladesh
+
+- **Portfolio:** https://sharifdev.vercel.app
+- **Resume:** https://sharifdev.vercel.app/resume.pdf
+- **GitHub:** https://github.com/uforco
+
+Feel free to connect with me for collaboration, technical discussions, or project-related opportunities.
+
+---
+
+_Developed and maintained by Md Sharif._
